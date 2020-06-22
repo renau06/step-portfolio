@@ -1,9 +1,109 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+
+
+
+nav.top-nav {
+    background-color: white;
+    position: fixed;
+    top:0px;
+    left:0px;
+    right:0px;
+    z-index: 3;
+   
 }
 
-#greeting-container {
-  margin-top: 20px;
+#content {
+    margin-top:110px;
+  width: 99vw;
 }
+
+nav.top-nav ul{
+    list-style: none;
+    padding:0;
+    float:right;
+}
+
+nav.top-nav li {
+    font-family: 'Hind', sans-serif;
+    font-weight: bold;
+    color: #044660 ;
+    margin:5px;
+    display: inline-block;
+    background-color:white;
+    padding: 3px; 
+    user-select: none;
+    position: relative;
+    
+}
+
+nav.top-nav li a{
+    
+    font-weight: bold;
+    font-size:1.5vw;
+    color: #ee86b7;
+    text-decoration:none;
+}
+
+
+
+nav.top-nav li:hover{
+    text-decoration: underline;
+}
+nav.top-nav li:active{
+    color: black;
+}
+
+
+
+
+h1{
+    position:relative;
+    top:-4vw;
+    text-align:center;
+    font-size:6vw;
+    color:white;
+    background-color:#779ecb;
+
+    padding-top:1vw;
+    padding-bottom:1vw;
+    
+}
+
+#intro-container{
+
+    position:relative;
+    top:-7vw;
+    background-color:#d7cec7;
+    display: grid;
+    grid-template-columns:30% 70%;
+    grid-template-rows: 100%;
+
+    padding-top:0px;
+    
+    
+}
+
+#image-container {
+grid-column: 1/span 1;
+  
+}
+
+#image-container img{
+    display: inline-block;
+    height:22vw;
+    width:22vw;
+    position:relative;
+    left:5vw;
+}
+
+#about-me {
+    grid-column: 2/span 2;
+    display: inline-block;
+    position:relative;
+    left:5vw;
+    width: 50vw;
+    font-size:2vw;
+    color:#6e7376;
+    
+}
+
+
