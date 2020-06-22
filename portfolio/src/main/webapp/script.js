@@ -27,5 +27,24 @@ var memoji= setInterval(function generateImage(){
 }, 3000);
 
 
+var pictures=["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
+
+function createPictures(pictures,sectionSelector){
+    let section= document.querySelector(sectionSelector);
+    if(section){
+        if (pictures instanceof Array){
+            for(let picture of pictures){
+                let html = `
+               <img src="${picture}" class="image" alt="Image art"></a>`;
+
+                let container=document.createElement("div");
+                container.className="picture";
+                container.innerHTML = html;
+                section.append(container);
+            }
+        }
+    }
+}
+
 init();
 

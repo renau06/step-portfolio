@@ -57,7 +57,7 @@ nav.top-nav li:active{
 
 h1{
     position:relative;
-    top:-4vw;
+    top:-3vw;
     text-align:center;
     font-size:6vw;
     color:white;
@@ -106,4 +106,24 @@ grid-column: 1/span 1;
     
 }
 
+.pictures{
+    position:relative;
+    top:-9vw;
+    margin-top:0;
+}
+.pictures .picture{
+    display:inline-block;
+    position:relative;
+    top:50px;
+    left:1.5vw;
+}
+
+.pictures .picture img{
+    width:22vw;
+    height:17vw;
+    margin-left:10px;
+    margin-right:10px;
+    padding:4px;
+
+}
 
