@@ -39,7 +39,7 @@ nav.top-nav li a{
     
     font-weight: bold;
     font-size:1.5vw;
-    color: #ee86b7;
+    color: black;
     text-decoration:none;
 }
 
@@ -60,8 +60,13 @@ h1{
     top:-3vw;
     text-align:center;
     font-size:6vw;
+    text-shadow: -5px -5px 0 black,
+                5px -5px 0 black,
+                -5px 5px 0 black,
+                5px 5px 0 black;
+
     color:white;
-    background-color:#779ecb;
+    background-color:white;
 
     padding-top:1vw;
     padding-bottom:1vw;
@@ -124,6 +129,11 @@ grid-column: 1/span 1;
     margin-left:10px;
     margin-right:10px;
     padding:4px;
+    opacity: 0.7;
 
+}
+
+.pictures .picture :hover{
+    opacity:1;
 }
 
