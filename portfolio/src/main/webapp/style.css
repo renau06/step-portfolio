@@ -8,6 +8,7 @@ nav.top-nav {
     left:0px;
     right:0px;
     z-index: 3;
+    box-shadow: 0px 4px 4px #888888;
    
 }
 
@@ -19,13 +20,12 @@ nav.top-nav {
 nav.top-nav ul{
     list-style: none;
     padding:0;
-    float:right;
+    text-align:center;
 }
 
 nav.top-nav li {
     font-family: 'Hind', sans-serif;
     font-weight: bold;
-    color: #044660 ;
     margin:5px;
     display: inline-block;
     background-color:white;
@@ -36,11 +36,11 @@ nav.top-nav li {
 }
 
 nav.top-nav li a{
-    
-    font-weight: bold;
     font-size:1.5vw;
-    color: black;
+    color: #5e1914;
     text-decoration:none;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
 }
 
 
@@ -60,16 +60,13 @@ h1{
     top:-3vw;
     text-align:center;
     font-size:6vw;
-    text-shadow: -5px -5px 0 black,
-                5px -5px 0 black,
-                -5px 5px 0 black,
-                5px 5px 0 black;
-
-    color:white;
+    color:#5e1914;
     background-color:white;
 
     padding-top:1vw;
     padding-bottom:1vw;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
     
 }
 
@@ -94,20 +91,22 @@ grid-column: 1/span 1;
 
 #image-container img{
     display: inline-block;
-    height:22vw;
-    width:22vw;
+    height:19vw;
+    width:19vw;
     position:relative;
-    left:5vw;
+    left:7vw;
 }
 
 #about-me {
     grid-column: 2/span 2;
     display: inline-block;
     position:relative;
-    left:5vw;
-    width: 50vw;
-    font-size:2vw;
-    color:#6e7376;
+    left:1.5vw;
+    width: 60vw;
+    font-size:1.8vw;
+    color:#192841;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
     
 }
 
@@ -129,7 +128,7 @@ grid-column: 1/span 1;
     margin-left:10px;
     margin-right:10px;
     padding:4px;
-    opacity: 0.7;
+    opacity: 0.75;
 
 }
 
