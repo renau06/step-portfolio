@@ -55,7 +55,7 @@ var projects= [
     },
 
     {
-        title: "Mobile Music Player",
+        title: "Mobile Music Player Application",
         image:"/images/musicplayersample.png",
         text:"I recently created a mobile music application using HTML, CSS, and Javascript. This was one of my first projects involving HTML and CSS. I did this project for a class, however, I plan to continue working on it to add more of my own style and creativity.",
         link:"/projects/musicplayer/albums.html"
@@ -82,8 +82,8 @@ function createProjects(projects, sectionSelector){
         if (projects instanceof Array){
             for(let project of projects){
                 let html = `
-               <img src="${project.image}" class= "image" alt="Image art">
-               <a href = "${project.link}"> <div class="project-title"> ${project.title}</div> <a>
+               <div> <a href = "${project.link}"><img src="${project.image}" class= "image" alt="Image art"></a> </div>
+               <a class="project-title" href = "${project.link}"> <div > ${project.title}</div> <a>
                <div class="project-text">${project.text}</div>`;
 
                 let container=document.createElement("div");
