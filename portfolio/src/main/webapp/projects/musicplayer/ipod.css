@@ -1,0 +1,282 @@
+/* 
+	Global classes 
+					*/
+body {
+	background-image: url("images/iphoneOL.jpg");
+	background-repeat: no-repeat;
+	font-family: Avenir, sans-serif;
+}
+
+
+#screen {
+	height: 530px;
+	width: 300px;
+	margin: 105px 23px;
+}
+
+.head-bar {
+	background-color:#99ccff;
+	position:relative;
+	top:0;
+	left:0;
+	width:300px;
+	height:45px;
+	
+}
+
+.head-bar .head-bar-text{
+	color:white;
+	text-shadow:2px 2px  black;
+	position:relative;
+	left:75px;
+	top: 0px;
+
+}
+
+.back-button {
+	position:relative;
+	top:10px;
+	left:10px;
+	padding-top:18px;
+	padding-left:12px;
+	padding-right:14px;
+	color:navy;
+	border:.5px solid white;
+	font-size:8px;
+	background-color: lightgrey;
+	text-decoration: none;
+	font-weight: bolder;
+	
+}
+
+
+/* 
+	Albums 
+			*/
+
+/*grid display to position albums*/
+.albums-album-wrapper { 
+	width:300px;
+	padding-top:19px;
+	display:grid;
+	flex-direction: column;
+	grid-template-columns: 150px 150px;
+	grid-template-rows: 233px 233px;
+
+}
+
+/*album class to contain all info for each album into one class*/
+.album{
+	text-align:center;
+
+}
+
+/*link from title of "Coloring Book" to songs.html*/
+.album a{  
+	color:black;
+	text-decoration:none;
+}
+
+.album a:hover{
+	text-decoration: underline;
+}
+
+.albums-album-art {
+	padding-bottom:0px;
+
+}
+
+.albums-album-name {
+	margin-top:13px;
+	font-family: Avenir, sans-serif;
+	font-weight:600;
+	font-size: 1.2em;
+	line-height:94%;
+}
+
+.albums-artist-name {
+	font-size:0.9em;
+	padding-top:7px;
+	font-family: Avenir, sans-serif;
+	font-weight: 400;
+	font-style: italic;
+	line-height:94%;
+	
+}
+
+/* 
+	Songs 
+			*/
+
+/*use display:grid to seperate album art, title,artist and year*/
+.songs-info-wrapper {  
+	display:grid;
+	grid-template-columns: 160px 140px;
+	grid-template-rows: 50px 50px 50px;
+}
+
+.songs-album-art {
+	position:relative;
+	top:10px;
+	left:10px;
+	grid-row: 1 / span 3;
+}
+
+.songs-album-name {
+	margin-top:25px;
+	margin-right:10px;
+	margin-left: 2px;
+	font-family: Avenir, sans-serif;
+	font-weight: 600;
+	font-size: 1.3em;
+	line-height:94%;
+
+}
+
+.songs-artist-name {
+	font-size:1em;
+	margin-top:25px;
+	margin-right:10px;
+	margin-left: 2px;
+	font-family: Avenir, sans-serif;
+	font-weight: 400;
+	font-style: italic;
+	line-height:95%;
+}
+
+.songs-text-info {
+	
+}
+
+.songs-album-year {
+	font-size:1em;
+	margin-top:25px;
+	margin-right:10px;
+	margin-left: 2px;
+	font-family: Avenir, sans-serif;
+	font-weight: 400;
+	line-height:94%;
+}
+
+
+.songs-list {
+	position:relative;
+	left:-3px;
+	padding-top: 5px;
+}
+
+.songs-list li{
+	margin-top: 5px;
+	border: 1px solid lightgrey;
+	padding-left:5px;
+	margin-right: 5px;
+}
+
+.songs-list a{
+	color:black;
+	text-decoration: none;
+
+}
+.songs-list a:hover{
+	color:purple;
+	text-decoration: underline;
+}
+
+/* 
+	Player 
+			*/
+.player-album-art {
+	position: relative;
+	top:30px;
+	left:30px;
+
+}
+
+.player-song-info {
+	text-align:center;
+	padding-top:30px;
+	line-height: 8px;
+	font-size:18px;
+	font-family: Avenir, sans-serif;
+	font-weight: 400;
+	line-height: 5px;
+	color:#5c9ddd;
+}
+
+#player-song-name {
+	font-size:22px;
+	font-weight:500;
+	color: #696969;
+	
+}
+
+.volume-bar {
+	position: relative;
+	left:40px;
+}
+
+.volume-bar #vl0,#vl1,#vl2,#vl3,#vl4,#vl5{
+
+	display:inline-block; 
+	height:6px;
+	width:24px;
+	border: 1px solid black;
+	background-color: white;
+}
+
+
+.volume-bar #volumedown{
+	display:inline-block;
+	position: relative;
+	top:8px;
+	height:6px;
+	width:24px;
+		
+}
+
+
+
+
+.volume-level {
+	
+}
+
+.volume-rocker {
+	position: relative;
+	left:3px;
+}
+
+.volume-rocker button{
+	width:100px;
+	height:20px;
+	border-radius: 5px;
+	margin-left:30px;
+
+}
+
+.volume-rocker button:active{
+	background-color: rgba(92,157,221,0.2);
+}
+
+.player-controls{
+	position:relative;
+	text-align: center;
+	
+}
+
+#player-time {
+	position: relative;
+	left:30px;
+	width:78%;
+	
+}
+
+#time-elapsed {
+	position: relative;
+	left:30px;
+}
+
+#time-total{
+	position: relative;
+	left:200px;
+}

@@ -136,3 +136,28 @@ grid-column: 1/span 1;
     opacity:1;
 }
 
+
+.project-container{
+    display: grid;
+    grid-template-columns:30% 70%;
+    grid-template-rows: 30% 70%;
+    padding:2vw;
+}
+.project-container img{
+    grid-row: 1/span 2;
+    grid-column: 1/span 1;
+    height:20vw;
+}
+
+.project-container a{
+    grid-row: 1/span 1;
+    grid-column: 2/span 2;
+}
+
+.project-container .project-text{
+    grid-row:2/span 2;
+    grid-column: 2/span 2;
+    position:relative;
+    top:5vw;
+}
+
