@@ -82,17 +82,13 @@ h1{
     
 }
 
-#image-container {
-grid-column: 1/span 1;
-  
-}
-
-#image-container img{
+#intro-container #memoji {
+    grid-column: 1/span 1;
     display: inline-block;
-    height:19vw;
-    width:19vw;
+    height:22vw;
+    width:22vw;
     position:relative;
-    left:7vw;
+    left:5vw;
 }
 
 #about-me {
@@ -165,7 +161,7 @@ grid-column: 1/span 1;
     text-align:center;
     width:53vw;
     position:relative;
-    left:34vw;
+    left:0vw;
     color:#192841;
     font-family: 'Karla', sans-serif;
     font-weight:400;
@@ -191,7 +187,7 @@ grid-column: 1/span 1;
 
 .social .social-image{
     height:13vw;
-    border-radius:25%;
+    border-radius:50%;
 
 }
 
