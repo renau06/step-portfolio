@@ -16,35 +16,32 @@
  * Adds a random greeting to the page.
  */
 
-var memoji= setInterval(function generateImage(){
-    const images= 
+var memoji = setInterval(function(){
+    const images = 
     ["/images/memoji1.jpg","/images/memoji2.jpg","/images/memoji3.jpg","/images/memoji4.jpg","/images/memoji5.jpg","/images/memoji6.jpg"];
 
-    const image= images[Math.floor(Math.random() * images.length)];
-    const imageContainer= document.getElementById('image-container');
-    imageContainer.innerHTML=`
+    const image = images[Math.floor(Math.random() * images.length)];
+    const imageContainer = document.getElementById('image-container');
+    imageContainer.innerHTML  =`
     <img src="${image}">`;
 }, 3000);
 
 
-var pictures=["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
+var pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
 
 function createPictures(pictures,sectionSelector){
-    let section= document.querySelector(sectionSelector);
+    let section = document.querySelector(sectionSelector);
     if(section){
         if (pictures instanceof Array){
             for(let picture of pictures){
-                let html = `
-               <img src="${picture}" class="image" alt="Image art"></a>`;
-
-                let container=document.createElement("div");
-                container.className="picture";
-                container.innerHTML = html;
-                section.append(container);
+                let image = document.createElement("img");
+                image.className= "picture";
+                image.src = picture;
+                section.append(image);
             }
         }
     }
 }
 
-init();
+
 
