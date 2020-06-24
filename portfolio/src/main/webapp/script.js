@@ -19,11 +19,8 @@
 var memoji = setInterval(function(){
     const images = 
     ["/images/memoji1.jpg","/images/memoji2.jpg","/images/memoji3.jpg","/images/memoji4.jpg","/images/memoji5.jpg","/images/memoji6.jpg"];
-
     const image = images[Math.floor(Math.random() * images.length)];
-    const imageContainer = document.getElementById('image-container');
-    imageContainer.innerHTML  =`
-    <img src="${image}">`;
+    document.getElementById("memoji").src = image;
 }, 3000);
 
 
