@@ -16,14 +16,11 @@
  * Adds a random greeting to the page.
  */
 
-var memoji= setInterval(function generateImage(){
-    const images= 
+var memoji = setInterval(function(){
+    const images = 
     ["/images/memoji1.jpg","/images/memoji2.jpg","/images/memoji3.jpg","/images/memoji4.jpg","/images/memoji5.jpg","/images/memoji6.jpg"];
-
-    const image= images[Math.floor(Math.random() * images.length)];
-    const imageContainer= document.getElementById('image-container');
-    imageContainer.innerHTML=`
-    <img src="${image}">`;
+    const image = images[Math.floor(Math.random() * images.length)];
+    document.getElementById("memoji").src = image;
 }, 3000);
 
 
@@ -34,14 +31,11 @@ function createPictures(pictures,sectionSelector){
     if(section){
         if (pictures instanceof Array){
             for(let picture of pictures){
-                let html = `
-               <img src="${picture}" class="image" alt="Image art"></a>`;
-
-                let container=document.createElement("div");
-                container.className="picture";
-                container.innerHTML = html;
-                section.append(container);
-            }
+                let image = document.createElement("img");
+                image.className= "picture";
+                image.src = picture;
+                section.append(image);
+                }
         }
     }
 }
@@ -81,14 +75,32 @@ function createProjects(projects, sectionSelector){
     if(section){
         if (projects instanceof Array){
             for(let project of projects){
-                let html = `
-               <div> <a href = "${project.link}"><img src="${project.image}" class= "image" alt="Image art"></a> </div>
-               <a class="project-title" href = "${project.link}"> <div > ${project.title}</div> <a>
-               <div class="project-text">${project.text}</div>`;
+
+               let imageContainer = document.createElement("div");
+               let projectLink = document.createElement("a");
+               projectLink.href = project.link;
+               let projectImage = document.createElement("img");
+               projectImage.src = project.image;
+               projectLink.append(projectImage);
+               imageContainer.append(projectLink);
+
+               let projectTitleLink = document.createElement("a");
+               projectTitleLink.className = "project-title";
+               projectTitleLink.href = project.link;
+               let projectTitle = document.createElement("div");
+               projectTitle.innerText = project.title;
+               projectTitleLink.append(projectTitle);
+
+               let projectDescription = document.createElement("div");
+               projectDescription.className = "project-text";
+               projectDescription.innerText = project.text;
+                
 
                 let container=document.createElement("div");
                 container.className="project-container";
-                container.innerHTML = html;
+                container.append(imageContainer);
+                container.append(projectTitleLink);
+                container.append(projectDescription);
                 section.append(container);
             }
         }
