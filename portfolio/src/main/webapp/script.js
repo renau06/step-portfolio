@@ -16,37 +16,34 @@
  * Adds a random greeting to the page.
  */
 
-var memoji= setInterval(function generateImage(){
-    const images= 
+var memoji = setInterval(function() {
+    const images = 
     ["/images/memoji1.jpg","/images/memoji2.jpg","/images/memoji3.jpg","/images/memoji4.jpg","/images/memoji5.jpg","/images/memoji6.jpg"];
 
-    const image= images[Math.floor(Math.random() * images.length)];
-    const imageContainer= document.getElementById('image-container');
+    const image = images[Math.floor(Math.random() * images.length)];
+    const imageContainer = document.getElementById('image-container');
     imageContainer.innerHTML=`
     <img src="${image}">`;
 }, 3000);
 
 
-var pictures=["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
+var pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
 
 function createPictures(pictures,sectionSelector){
-    let section= document.querySelector(sectionSelector);
+    let section = document.querySelector(sectionSelector);
     if(section){
         if (pictures instanceof Array){
             for(let picture of pictures){
-                let html = `
-               <img src="${picture}" class="image" alt="Image art"></a>`;
-
-                let container=document.createElement("div");
-                container.className="picture";
-                container.innerHTML = html;
-                section.append(container);
+                let image = document.createElement("img");
+                image.className= "picture";
+                image.src = picture;
+                section.append(image);
             }
         }
     }
 }
 
-var projects= [
+var projects = [
     {
         title: "Book Club App Wireframe Prototype",
         image: "/images/bookclubappsample.png",
@@ -77,16 +74,16 @@ var projects= [
 ]
 
 function createProjects(projects, sectionSelector){
-    let section= document.querySelector(sectionSelector);
+    let section = document.querySelector(sectionSelector);
     if(section){
         if (projects instanceof Array){
             for(let project of projects){
                 let html = `
-               <div> <a href = "${project.link}"><img src="${project.image}" class= "image" alt="Image art"></a> </div>
-               <a class="project-title" href = "${project.link}"> <div > ${project.title}</div> <a>
+               <div> <a href = "${project.link}"><img src = "${project.image}" class= "image" alt="Image art"></a> </div>
+               <a class="project-title" href = "${project.link}"> <div> ${project.title}</div> <a>
                <div class="project-text">${project.text}</div>`;
 
-                let container=document.createElement("div");
+                let container = document.createElement("div");
                 container.className="project-container";
                 container.innerHTML = html;
                 section.append(container);
@@ -96,5 +93,49 @@ function createProjects(projects, sectionSelector){
     
 
 }
-init();
+
+var socials = [
+    {
+        image:"/images/linkedin.png",
+        link:"https://www.linkedin.com/in/rena-upadhyay-6b8b36173"
+    },
+    {
+        image:"/images/github.png",
+        link:"https://github.com/renau06"
+    },
+    {
+        image:"/images/facebook.png",
+        link:"https://www.facebook.com/people/Rena-Upadhyay/100005326726445"
+    },
+    {
+        image:"/images/instagram.png",
+        link:"https://www.instagram.com/renaupadhyay/"
+    }
+]
+
+function createSocials(socials, sectionSelector){
+    let section = document.querySelector(sectionSelector);
+    if(section){
+        if (socials instanceof Array){
+            for(let social of socials){
+                let container = document.createElement("div");
+                container.className = "social";
+                let link = document.createElement("a");
+                link.href = social.link;
+                let image = document.createElement("img");
+                image.className= "social-image";
+                image.src = social.image;
+                link.append(image)
+                container.append(link);
+                section.append(container);
+            }
+        }
+    }
+    
+
+}
+
+
+
+
 

@@ -113,25 +113,18 @@ grid-column: 1/span 1;
     top:-9vw;
     margin-top:0;
 }
+
 .pictures .picture{
     display:inline-block;
     position:relative;
     top:50px;
-    left:1.5vw;
-}
-
-.pictures .picture img{
+    left:1.7vw;
     width:22vw;
     height:17vw;
     margin-left:10px;
     margin-right:10px;
     padding:4px;
-    opacity: 0.9
 
-}
-
-.pictures .picture :hover{
-    opacity:1;
 }
 
 
@@ -179,7 +172,18 @@ grid-column: 1/span 1;
     font-size:1.8vw;
 }
 
-.project-container a :hover{
+.project-container a:hover{
     opacity:0.6;
+}
+
+.social{
+    display:inline-block;
+    background-color:pink;
+
+}
+
+.social .social-image{
+    height:10vw;
+    mix-blend-mode: multiply;
 }
 
