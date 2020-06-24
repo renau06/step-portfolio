@@ -24,15 +24,15 @@ var memoji = setInterval(function(){
 }, 3000);
 
 
-var pictures=["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
+var pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
 
 function createPictures(pictures,sectionSelector){
-    let section= document.querySelector(sectionSelector);
+    let section = document.querySelector(sectionSelector);
     if(section){
         if (pictures instanceof Array){
             for(let picture of pictures){
                 let image = document.createElement("img");
-                image.className= "picture";
+                image.className = "picture";
                 image.src = picture;
                 section.append(image);
                 }
@@ -40,7 +40,7 @@ function createPictures(pictures,sectionSelector){
     }
 }
 
-var projects= [
+var projects = [
     {
         title: "Book Club App Wireframe Prototype",
         image: "/images/bookclubappsample.png",
@@ -71,7 +71,7 @@ var projects= [
 ]
 
 function createProjects(projects, sectionSelector){
-    let section= document.querySelector(sectionSelector);
+    let section = document.querySelector(sectionSelector);
     if(section){
         if (projects instanceof Array){
             for(let project of projects){
@@ -96,8 +96,8 @@ function createProjects(projects, sectionSelector){
                projectDescription.innerText = project.text;
                 
 
-                let container=document.createElement("div");
-                container.className="project-container";
+                let container = document.createElement("div");
+                container.className = "project-container";
                 container.append(imageContainer);
                 container.append(projectTitleLink);
                 container.append(projectDescription);
@@ -105,8 +105,6 @@ function createProjects(projects, sectionSelector){
             }
         }
     }
-    
-
 }
-init();
+
 
