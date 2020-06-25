@@ -29,15 +29,15 @@ const pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture
 function createPictures(pictures,sectionSelector){
     let section = document.querySelector(sectionSelector);
     if(section){
-            for(let picture of pictures){
-                let image = document.createElement("img");
-                image.className= "picture";
-                image.src = picture;
-                section.append(image);
-            }
-        
+        for(let picture of pictures){
+            let image = document.createElement("img");
+            image.className= "picture";
+            image.src = picture;
+            section.append(image);
         }
+        
     }
+}
 
 
 
