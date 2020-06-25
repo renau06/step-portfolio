@@ -40,7 +40,7 @@ function volDown() {
 }
 
 function timeElapsed(){
-	document.getElementById('time-elapsed').innerText=secondsToMs(document.getElementById('player-time').value); //changes time to range bar value when range bar is clicked
+	document.getElementById('time-elapsed').innerText=secondsToMinutes(document.getElementById('player-time').value); //changes time to range bar value when range bar is clicked
 }
 
 function switchPlay() {
@@ -58,7 +58,7 @@ function switchPlay() {
 			}
 			else if(document.getElementById('player-time').value<181){
 				document.getElementById('player-time').value++;
-				document.getElementById('time-elapsed').innerText=secondsToMs(document.getElementById('player-time').value);
+				document.getElementById('time-elapsed').innerText=secondsToMinutes(document.getElementById('player-time').value);
 				
 			}
 			
@@ -70,7 +70,7 @@ function switchPlay() {
 
 function nextSong() { //sets range bar and time-elapsed value to 0, moves currentsong to one ahead (except if currentsong is 9,then moves to first song)
 	document.getElementById('player-time').value= 0;
-	document.getElementById('time-elapsed').innerText=secondsToMs(document.getElementById('player-time').value);
+	document.getElementById('time-elapsed').innerText=secondsToMinutes(document.getElementById('player-time').value);
 	if(currentsong==9){
 		currentsong=0;
 	}
@@ -83,7 +83,7 @@ function nextSong() { //sets range bar and time-elapsed value to 0, moves curren
 
 function prevSong() { //sets range bar and time-elapsed value to 0, moves currentsong to previous (except if it is 0, then moves to last song)
 	document.getElementById('player-time').value= 0;
-	document.getElementById('time-elapsed').innerText=secondsToMs(document.getElementById('player-time').value);
+	document.getElementById('time-elapsed').innerText=secondsToMinutes(document.getElementById('player-time').value);
 
 	if(currentsong==0){
 		currentsong=9
@@ -94,8 +94,8 @@ function prevSong() { //sets range bar and time-elapsed value to 0, moves curren
 	document.getElementById('player-song-name').innerText=tracklist[currentsong];
 }
 
-function secondsToMs(d) {
-    d = Number(d);
+function secondsToMinutes(d) {
+    d = parseInt(d);
 
     var min = Math.floor(d / 60);
     var sec = Math.floor(d % 60);
@@ -103,7 +103,7 @@ function secondsToMs(d) {
     min= String(min).padStart(1,"0");
     sec= String(sec).padStart(2,"0");
 
-    return `${min}` + ":" + `${sec}`;
+    return min + ":" + sec;
 }
 
 init();
