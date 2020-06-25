@@ -5,14 +5,44 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Karla&family=Rubik:wght@500;700&display=swap" rel="stylesheet">
   </head>
   <body>
+      <nav class= "top-nav">
+            <ul>
+                <li><a href="/index.html">about me.</a></li>
+                <li><a href="/work.html">work.</a></li>
+                <li><a href="/contact.html">connect with me.</a></li>
+            
+            </ul>
+        </nav>
+        
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+      <h1>Rena Upadhyay</h1>
+      <div id="intro-container">
+            <img id= "memoji" src="/images/memoji4.jpg">
+        <p id= "about-me" >Hi and welcome! I am a student at Northwestern Univeristy, 
+            studying computer science and economics. I am front-end and back-end coder, 
+            with experience in Python, Javascript, C++, C, C#, HTML, and CSS. My passion 
+            lies in the intersection of elegant designs and efficient code. Along with 
+            coding and design, I also love guitar and piano, kickboxing, tennis, boating, 
+            traveling, and photography. That is me to the left! But look below to see more 
+            into my life. </p>
+      </div>
+      
+      
     </div>
+
+  <section class="pictures">
+
+  </section>
+
+  <script> 
+    createPictures(pictures,".pictures")
+  </script>
+    
+
+
+      
   </body>
 </html>

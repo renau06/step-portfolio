@@ -15,14 +15,29 @@
 /**
  * Adds a random greeting to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+var memoji = setInterval(function(){
+    const images = 
+    ["/images/memoji1.jpg","/images/memoji2.jpg","/images/memoji3.jpg","/images/memoji4.jpg","/images/memoji5.jpg","/images/memoji6.jpg"];
+    const image = images[Math.floor(Math.random() * images.length)];
+    document.getElementById("memoji").src = image;
+}, 3000);
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+
+const pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
+
+function createPictures(pictures,sectionSelector){
+    let section = document.querySelector(sectionSelector);
+    if(section){
+        for(let picture of pictures){
+            let image = document.createElement("img");
+            image.className= "picture";
+            image.src = picture;
+            section.append(image);
+        }
+        
+    }
 }
+
+
+

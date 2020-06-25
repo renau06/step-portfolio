@@ -1,9 +1,126 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+
+
+
+nav.top-nav {
+    background-color: white;
+    position: fixed;
+    top:0px;
+    left:0px;
+    right:0px;
+    z-index: 3;
+    box-shadow: 0px 4px 4px #888888;
+   
 }
 
-#greeting-container {
-  margin-top: 20px;
+#content {
+    margin-top:110px;
+  width: 99vw;
+}
+
+nav.top-nav ul{
+    list-style: none;
+    padding:0;
+    text-align:center;
+}
+
+nav.top-nav li {
+    font-family: 'Hind', sans-serif;
+    font-weight: bold;
+    margin:5px;
+    display: inline-block;
+    background-color:white;
+    padding: 3px; 
+    user-select: none;
+    position: relative;
+    
+}
+
+nav.top-nav li a{
+    font-size:1.5vw;
+    color: #5e1914;
+    text-decoration:none;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+}
+
+
+
+nav.top-nav li:hover{
+    text-decoration: underline;
+}
+nav.top-nav li:active{
+    color: black;
+}
+
+
+
+
+h1{
+    position:relative;
+    top:-3vw;
+    text-align:center;
+    font-size:6vw;
+    color:#5e1914;
+    background-color:white;
+
+    padding-top:1vw;
+    padding-bottom:1vw;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    
+}
+
+#intro-container{
+
+    position:relative;
+    top:-7vw;
+    background-color:#d7cec7;
+    display: grid;
+    grid-template-columns:30% 70%;
+    grid-template-rows: 100%;
+
+    padding-top:0px;
+    
+    
+}
+
+#intro-container #memoji {
+    grid-column: 1/span 1;
+    display: inline-block;
+    height:22vw;
+    width:22vw;
+    position:relative;
+    left:5vw;
+}
+
+#about-me {
+    grid-column: 2/span 2;
+    display: inline-block;
+    position:relative;
+    left:1.5vw;
+    width: 60vw;
+    font-size:1.8vw;
+    color:#192841;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+    
+}
+
+.pictures{
+    position:relative;
+    top:-9vw;
+    margin-top:0;
+}
+
+.pictures .picture{
+    display:inline-block;
+    position:relative;
+    top:50px;
+    left:1.7vw;
+    width:22vw;
+    height:17vw;
+    margin-left:10px;
+    margin-right:10px;
+    padding:4px;
+
 }
