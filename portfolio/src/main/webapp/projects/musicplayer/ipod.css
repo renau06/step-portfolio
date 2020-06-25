@@ -195,7 +195,6 @@ body {
 .player-song-info {
 	text-align:center;
 	padding-top:30px;
-	line-height: 8px;
 	font-size:18px;
 	font-family: Avenir, sans-serif;
 	font-weight: 400;
@@ -262,6 +261,10 @@ body {
 	position:relative;
 	text-align: center;
 	
+}
+
+.player-controls button{
+    padding:8px;
 }
 
 #player-time {

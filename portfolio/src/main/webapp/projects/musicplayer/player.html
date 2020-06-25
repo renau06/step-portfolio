@@ -2,8 +2,8 @@
 <header>
    <title>Music Player</title>
    <link rel="stylesheet" type="text/css" href="ipod.css"/>
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </header>
 <body>
    <div id="screen">
@@ -25,9 +25,9 @@
 
 
       <div class="player-controls">
-        <button onclick="prevSong()"><i class="material-icons">skip_previous</i></button>
-        <button id="play-button" onclick="switchPlay()"><i class="material-icons">play_arrow</i></button>
-        <button onclick="nextSong()"><i class="material-icons">skip_next</i></button>
+        <button onclick="prevSong()"><i class="fa fa-backward fa-lg"></i></button>
+        <button id="play-button" onclick="switchPlay()"><i id="play-icon" class="fa fa-play fa-lg"></i></button>
+        <button onclick="nextSong()"><i class="fa fa-forward fa-lg"></i></button>
       </div>
 
       <div class="volume-bar">
