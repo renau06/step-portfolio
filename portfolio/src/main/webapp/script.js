@@ -144,8 +144,6 @@ function createSocials(socials, sectionSelector){
             }
         }
     }
-    
-
 }
 
 
