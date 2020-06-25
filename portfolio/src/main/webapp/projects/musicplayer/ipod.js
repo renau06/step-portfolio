@@ -65,8 +65,7 @@ function switchPlay() {
 		}	
 			,1000);
 		
-			
-}
+	}
 }
 
 function nextSong() { //sets range bar and time-elapsed value to 0, moves currentsong to one ahead (except if currentsong is 9,then moves to first song)

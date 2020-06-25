@@ -72,37 +72,34 @@ var projects = [
 function createProjects(projects, sectionSelector){
     let section = document.querySelector(sectionSelector);
     if(section){
-        if (projects instanceof Array){
-            for(let project of projects){
+        for(let project of projects){
+            let imageContainer = document.createElement("div");
+            let projectLink = document.createElement("a");
+            projectLink.href = project.link;
+            let projectImage = document.createElement("img");
+            projectImage.src = project.image;
+            projectLink.append(projectImage);
+            imageContainer.append(projectLink);
 
-               let imageContainer = document.createElement("div");
-               let projectLink = document.createElement("a");
-               projectLink.href = project.link;
-               let projectImage = document.createElement("img");
-               projectImage.src = project.image;
-               projectLink.append(projectImage);
-               imageContainer.append(projectLink);
+            let projectTitleLink = document.createElement("a");
+            projectTitleLink.className = "project-title";
+            projectTitleLink.href = project.link;
+            let projectTitle = document.createElement("div");
+            projectTitle.innerText = project.title;
+            projectTitleLink.append(projectTitle);
 
-               let projectTitleLink = document.createElement("a");
-               projectTitleLink.className = "project-title";
-               projectTitleLink.href = project.link;
-               let projectTitle = document.createElement("div");
-               projectTitle.innerText = project.title;
-               projectTitleLink.append(projectTitle);
-
-               let projectDescription = document.createElement("div");
-               projectDescription.className = "project-text";
-               projectDescription.innerText = project.text;
+            let projectDescription = document.createElement("div");
+            projectDescription.className = "project-text";
+            projectDescription.innerText = project.text;
                 
 
-                let container = document.createElement("div");
-                container.className = "project-container";
-                container.append(imageContainer);
-                container.append(projectTitleLink);
-                container.append(projectDescription);
-                section.append(container);
-            }
-        }
+            let container = document.createElement("div");
+            container.className = "project-container";
+            container.append(imageContainer);
+            container.append(projectTitleLink);
+            container.append(projectDescription);
+            section.append(container);
+        }  
     }
 }
 
