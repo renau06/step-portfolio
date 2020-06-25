@@ -16,7 +16,7 @@
  * Adds a random greeting to the page.
  */
 
-var memoji = setInterval(function generateImage(){
+var memoji = setInterval(function(){
     const images = 
     ["/images/memoji1.jpg","/images/memoji2.jpg","/images/memoji3.jpg","/images/memoji4.jpg","/images/memoji5.jpg","/images/memoji6.jpg"];
     const image = images[Math.floor(Math.random() * images.length)];
