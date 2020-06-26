@@ -147,8 +147,9 @@ function createSocials(socials, sectionSelector){
 }
 
 function getHello(){
-    fetch('/data').then(response => response.text()).then((hello) => {
-    document.getElementById('hello-container').innerHTML = hello;
+    fetch('/data').then(response => response.json()).then((messages) => {
+    console.log(messages)
+   // document.getElementById('hello-container').innerHTML = hello;
   });
 }
 
