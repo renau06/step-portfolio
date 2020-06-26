@@ -168,7 +168,7 @@ h1{
     opacity:0.6;
 }
 
-.socials{
+.social-container{
     position:relative;
     text-align: center;
 
@@ -189,11 +189,6 @@ h1{
 
 .social .social-image:hover{
     opacity:0.3;
-}
-
-hr{
-    width:65vw;
-    border:3px solid black;
 }
 
 .email{

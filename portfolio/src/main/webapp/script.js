@@ -104,7 +104,7 @@ function createProjects(projects, sectionSelector){
 }
 
 
-var socials = [
+var socialList = [
     {
         image:"/images/linkedin.png",
         link:"https://www.linkedin.com/in/rena-upadhyay-6b8b36173"
@@ -123,22 +123,21 @@ var socials = [
     }
 ]
 
-function createSocials(socials, sectionSelector){
+function createSocials(socialList, sectionSelector){
     let section = document.querySelector(sectionSelector);
     if(section){
-        if (socials instanceof Array){
-            for(let social of socials){
-                let container = document.createElement("div");
-                container.className = "social";
-                let link = document.createElement("a");
-                link.href = social.link;
-                let image = document.createElement("img");
-                image.className= "social-image";
-                image.src = social.image;
-                link.append(image)
-                container.append(link);
-                section.append(container);
-            }
+        for(let social of socialList){
+            let container = document.createElement("div");
+            container.className = "social";
+            let link = document.createElement("a");
+            link.href = social.link;
+            let image = document.createElement("img");
+            image.className= "social-image";
+            image.src = social.image;
+            link.append(image)
+            container.append(link);
+            section.append(container);
+            
         }
     }
 }
