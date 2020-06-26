@@ -146,10 +146,9 @@ function createSocials(socials, sectionSelector){
     }
 }
 
-function getHello(){
+function getMessage(){
     fetch('/data').then(response => response.json()).then((messages) => {
-    console.log(messages)
-   // document.getElementById('hello-container').innerHTML = hello;
+    document.getElementById('hello-container').innerText = messages[Math.floor(Math.random() * messages.length)];
   });
 }
 
