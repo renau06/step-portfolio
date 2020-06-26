@@ -40,16 +40,11 @@ public class DataServlet extends HttpServlet {
     ArrayList<Comment> comments = new ArrayList<Comment>();
     
   @Override
-  /*public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    ArrayList<String> messages = new ArrayList<String>();
-    messages.add("Hello!");
-    messages.add("You are awesome!");
-    messages.add("Have a great day!");
-
-    String json = convertToJson(messages);
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
-  }*/
+  }
 
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
@@ -62,6 +57,17 @@ public class DataServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(json);
     response.sendRedirect("/contact.html");
+  }
+  
+  private String convertToJson(ArrayList<String> messages) {
+    String json = "[";
+    json += "\"" + messages.get(0) + "\"";
+    for (int i=1; i<messages.size(); i++){
+        json += ", ";
+        json += "\"" + messages.get(i) + "\"";
+    }
+    json += "]";
+    return json;
   }
 
   private String convertToJsonUsingGson(ArrayList<Comment> comments) {
