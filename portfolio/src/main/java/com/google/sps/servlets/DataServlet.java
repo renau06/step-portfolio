@@ -13,7 +13,7 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
-
+import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +36,18 @@ public class DataServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
+  
+  ArrayList<String> comments = new ArrayList<String>();
+
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String comment = request.getParameter("text-input");
+    comments.add(comment);
+
+    String json = convertToJsonUsingGson(comments);
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
 
   private String convertToJson(ArrayList<String> messages) {
     String json = "[";
@@ -45,6 +57,12 @@ public class DataServlet extends HttpServlet {
         json += "\"" + messages.get(i) + "\"";
     }
     json += "]";
+    return json;
+  }
+
+  private String convertToJsonUsingGson(ArrayList<String> messages) {
+    Gson gson = new Gson();
+    String json = gson.toJson(messages);
     return json;
   }
 
