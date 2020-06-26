@@ -50,9 +50,6 @@ nav.top-nav li:hover{
 }
 
 
-
-
-
 h1{
     position:relative;
     top:-3vw;
@@ -120,7 +117,6 @@ h1{
     margin-left:10px;
     margin-right:10px;
     padding:4px;
-
 }
 
 
@@ -225,3 +221,4 @@ hr{
     position:relative;
     top:-2vw;
 }
+
