@@ -24,6 +24,7 @@ var memoji = setInterval(function(){
 }, 3000);
 
 
+
 const pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
 
 function createPictures(pictures,sectionSelector){
@@ -31,13 +32,75 @@ function createPictures(pictures,sectionSelector){
     if(section){
         for(let picture of pictures){
             let image = document.createElement("img");
-            image.className= "picture";
+            image.className = "picture";
             image.src = picture;
             section.append(image);
         }
-        
     }
 }
 
+var projects = [
+    {
+        title: "Book Club App Wireframe Prototype",
+        image: "/images/bookclubappsample.png",
+        text: "I created this wireframe prototype of a fictional online book club app. I used Balsamiq to create this wireframe. The wireframe implements features I believed were necessary for a book club app including the ability to search books, add books to your reading lists, rate books, and read books.",
+        link: "https://balsamiq.cloud/soancio/pgyhw3l/r2278"
+    },
+
+    {
+        title: "Mobile Music Player Application",
+        image:"/images/musicplayersample.png",
+        text:"I recently created a mobile music application using HTML, CSS, and Javascript. This was one of my first projects involving HTML and CSS. I did this project for a class, however, I plan to continue working on it to add more of my own style and creativity.",
+        link:"/projects/musicplayer/albums.html"
+    },
+
+    {
+        title:"Take Home Pediatrics Podcast",
+        image:"/images/podcastsample.png",
+        text:"I am currently working for a local pediatrician who has recently started a podcast. I have created the logo and composed the soundtrack for Take Home Pediatrics: The Podcast. Now, I am working on designing the website. My aim is to make it capitvating and education, in order to draw users to listen to the podcast. Feel free to take a look at my work in progress!",
+        link:"/projects/podcast/index.html"
+    },
+    
+    {
+        title:"Northeast Pediatrics Website",
+        image:"/images/northeastsample.png",
+        text:"Northeast Pediatrics is my local pediatrician office. In high school, I assisted in revamping their website. I worked alongside a web developer to create a new, energetic design for the Northeast Pediatrics website to increase engagement.",
+        link:"https://northeastkids.webs.com/"
+    }
+]
+
+function createProjects(projects, sectionSelector){
+    let section = document.querySelector(sectionSelector);
+    if(section){
+        for(let project of projects){
+            let imageContainer = document.createElement("div");
+            let projectLink = document.createElement("a");
+            projectLink.href = project.link;
+            let projectImage = document.createElement("img");
+            projectImage.src = project.image;
+            projectLink.append(projectImage);
+            imageContainer.append(projectLink);
+
+            let projectTitleLink = document.createElement("a");
+            projectTitleLink.className = "project-title";
+            projectTitleLink.href = project.link;
+            let projectTitle = document.createElement("div");
+            projectTitle.innerText = project.title;
+            projectTitleLink.append(projectTitle);
+
+            let projectDescription = document.createElement("div");
+            projectDescription.className = "project-text";
+            projectDescription.innerText = project.text;
+                
+
+            let container = document.createElement("div");
+            container.className = "project-container";
+            container.append(imageContainer);
+            container.append(projectTitleLink);
+            container.append(projectDescription);
+            section.append(container);
+        }  
+    }
+}
 
 

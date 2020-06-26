@@ -1,0 +1,88 @@
+body{
+background-color:white;
+margin:0px;
+padding:0px;
+}
+
+nav.top-nav {
+    background-color: white;
+    position: fixed;
+    top:0px;
+    left:0px;
+    right:0px;
+    z-index: 3;
+   
+}
+
+nav.top-nav ul{
+    list-style: none;
+    padding-left:20px;
+    padding-right:20px;
+}
+
+nav.top-nav li {
+    font-family: aileron, sans-serif;
+    font-weight: bold;
+    color: #343f45 ;
+    display: inline-block;
+    background-color:white;
+    padding: 5px; 
+    user-select: none;
+    position: relative;
+    font-size:140%;
+}
+
+nav.top-nav li a{
+    
+    font-weight: bold;
+    color: #c24040;
+    text-decoration:none;
+}
+
+nav.top-nav li a:hover{
+    text-decoration: underline;
+}
+
+
+.logo{
+    display:inline-block;
+    position:relative;
+    margin:0;
+    padding:0;
+    height:25vw;
+    left:4vw;
+    top:5.5vw;
+    margin:10px;
+   
+}
+
+.about{
+    font-family: aileron, sans-serif;
+    font-weight: 400;
+    display:inline-block;
+    position: relative;
+    left:6.5vw;
+    top:-4vw;
+    width:60%;
+    font-size:2vw;
+    text-align: center;
+    color:#343f45;
+   
+    
+}
+
+.title{
+    font-family: aileron, sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    color:white;
+    font-size:5.5vw;
+    position:relative;
+    top:65px;
+    text-align:center;
+    padding-top:10px;
+    padding-bottom: 10px;
+    width:100%;
+    background-color: #343f45;
+}
+
