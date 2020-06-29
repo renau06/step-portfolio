@@ -27,6 +27,7 @@ var memoji = setInterval(function(){
 
 const pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
 
+
 function createPictures(pictures,sectionSelector){
     let section = document.querySelector(sectionSelector);
     if(section){
@@ -71,7 +72,7 @@ var projects = [
 
 function createProjects(projects, sectionSelector){
     let section = document.querySelector(sectionSelector);
-    if(section){
+    if(section){ 
         for(let project of projects){
             let imageContainer = document.createElement("div");
             let projectLink = document.createElement("a");
@@ -91,7 +92,6 @@ function createProjects(projects, sectionSelector){
             let projectDescription = document.createElement("div");
             projectDescription.className = "project-text";
             projectDescription.innerText = project.text;
-                
 
             let container = document.createElement("div");
             container.className = "project-container";
@@ -99,8 +99,51 @@ function createProjects(projects, sectionSelector){
             container.append(projectTitleLink);
             container.append(projectDescription);
             section.append(container);
-        }  
+        }
     }
 }
+
+
+var socialList = [
+    {
+        image:"/images/linkedin.png",
+        link:"https://www.linkedin.com/in/rena-upadhyay-6b8b36173"
+    },
+    {
+        image:"/images/github.png",
+        link:"https://github.com/renau06"
+    },
+    {
+        image:"/images/facebook.png",
+        link:"https://www.facebook.com/people/Rena-Upadhyay/100005326726445"
+    },
+    {
+        image:"/images/instagram.png",
+        link:"https://www.instagram.com/renaupadhyay/"
+    }
+]
+
+function createSocials(socialList, sectionSelector){
+    let section = document.querySelector(sectionSelector);
+    if(section){
+        for(let social of socialList){
+            let container = document.createElement("div");
+            container.className = "social";
+            let link = document.createElement("a");
+            link.href = social.link;
+            let image = document.createElement("img");
+            image.className= "social-image";
+            image.src = social.image;
+            link.append(image)
+            container.append(link);
+            section.append(container);
+            
+        }
+    }
+}
+    
+
+   
+
 
 

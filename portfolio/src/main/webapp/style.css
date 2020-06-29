@@ -50,9 +50,6 @@ nav.top-nav li:hover{
 }
 
 
-
-
-
 h1{
     position:relative;
     top:-3vw;
@@ -167,8 +164,56 @@ h1{
     font-size:1.8vw;
 }
 
-.project-container a :hover{
+.project-container a:hover{
     opacity:0.6;
 }
 
+.social-container{
+    position:relative;
+    text-align: center;
+
+}
+.social{
+    display:inline-block;
+    margin:1.5vw;
+    align-content: center;
+    margin-bottom:2.5vw;
+
+}
+
+.social .social-image{
+    height:13vw;
+    border-radius:50%;
+
+}
+
+.social .social-image:hover{
+    opacity:0.3;
+}
+
+.email{
+    text-align:center;
+     color:#5e1914;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+    font-size:2vw;
+}
+
+.email a{
+    color:#5e1914;
+}
+
+.email a:hover{
+    color:#8d261f;
+}
+
+.phone{
+    text-align:center;
+    color:#5e1914;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+    font-size:2vw;
+    position:relative;
+    top:-2vw;
+}
 
