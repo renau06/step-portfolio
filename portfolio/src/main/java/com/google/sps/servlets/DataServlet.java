@@ -13,7 +13,14 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,12 +35,14 @@ public class DataServlet extends HttpServlet {
     public class Comment{ 
         String name; 
         String email;
-        String comment; 
+        String comment;
+        long timestamp; 
   
-        public Comment(String name, String email, String comment) {
+        public Comment(String name, String email, String comment, long timestamp) {
             this.name = name;
             this.email = email;
             this.comment = comment;
+            this.timestamp =timestamp;
         }
     }
 
@@ -41,9 +50,25 @@ public class DataServlet extends HttpServlet {
     
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+        long id = entity.getKey().getId();
+        String name = (String) entity.getProperty("name");
+        String email = (String) entity.getProperty("email");
+        String comment = (String) entity.getProperty("comment");
+        long timestamp = (long) entity.getProperty("timestamp");
+        
+        Comment user_comment = new Comment(name, email, comment,timestamp);
+        comments.add(user_comment);
+    }
+
     String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
+
   }
 
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -51,13 +76,19 @@ public class DataServlet extends HttpServlet {
     String name = request.getParameter("name");
     String email = request.getParameter("email");
     String comment = request.getParameter("comment");
-    comments.add(new Comment(name,email,comment));
+    long timestamp = System.currentTimeMillis();
 
-    String json = convertToJsonUsingGson(comments);
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("email", email);
+    commentEntity.setProperty("comment", comment);
+    commentEntity.setProperty("timestamp", timestamp);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
     response.sendRedirect("/contact.html");
   }
+
   
   private String convertToJson(ArrayList<String> messages) {
     String json = "[";
