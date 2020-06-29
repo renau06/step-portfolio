@@ -144,10 +144,31 @@ function createSocials(socialList, sectionSelector){
     
 
 
-function getMessage(){
-    fetch('/data').then(response => response.json()).then((messages) => {
-    document.getElementById('hello-container').innerText = messages[Math.floor(Math.random() * messages.length)];
+function loadComments(){
+    fetch('/data').then(response => response.json()).then((comments) => {
+   const commentContainer= document.getElementById('comment-container');
+    comments.forEach((comment) => {
+        commentContainer.appendChild(createComment(comment));
+    })
   });
+}
+
+function createComment(comment){
+    let commentElement = document.createElement("div");
+    commentElement.className = "comment";
+
+    let commentName = document.createElement("p");
+    commentName.className= "comment-name";
+    commentName.innerText = comment.name;
+
+    let commentDescription = document.createElement("p");
+    commentDescription.className ="comment-description";
+    commentDescription.innerText = comment.comment;
+
+    commentElement.appendChild(commentName);
+    commentElement.appendChild(commentDescription);
+    return commentElement;
+
 }
 
 

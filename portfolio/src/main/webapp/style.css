@@ -137,7 +137,7 @@ h1{
     position:relative;
     left:50%;
     padding:2vw;
-    transform: translate(-50%, 0%);;
+    transform: translate(-50%, 0%);
 }
 
 .project-container .project-title {
@@ -215,5 +215,62 @@ h1{
     font-size:2vw;
     position:relative;
     top:-2vw;
+}
+
+.form-comment-wrapper{
+    margin-left:20vw;
+    margin-right:20vw;
+    padding-left:2vw;
+    padding-right:2vw;
+    display: grid;
+    grid-template-columns:35% 65%;
+    grid-template-rows:  100%;
+    border: 2px solid #192841;
+    border-radius:5%;
+}
+
+.comment-form {
+    grid-row: 1/span 1;
+    grid-column: 1/span 1;
+}
+
+.leave-a-comment{
+    color:#5e1914;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+    font-size:1.5vw;
+}
+
+textarea{
+    width:70%;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.comment-container{
+    grid-row: 1/span 1;
+    grid-column: 2/span 2;
+}
+
+.comment{
+    line-height:60%:
+}
+
+.comment-name{
+    position:relative;
+    font-weight:bold;
+    color:#5e1914;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+    font-size:1.5vw;
+}
+
+.comment-description{
+    position:relative;
+    top:-1.5vw;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+    font-size:1.3vw;
 }
 

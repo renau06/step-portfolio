@@ -7,7 +7,7 @@
     <script src="script.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Karla&family=Rubik:wght@500;700&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body onload="loadComments()">
       <nav class= "top-nav">
             <ul>
                 <li><a href="/index.html">about me.</a></li>
@@ -24,23 +24,23 @@
         <p class = "phone"> phone: 727-417-8552</p>
     </div>
 
-    <form action="/data" method="POST">
+    <div class= "form-comment-wrapper">
 
-      <p> Leave a comment!<p>
-      <textarea name="name">Name:</textarea>
-      <br/><br/>
-      <textarea name="email">Email:</textarea>
-      <br/><br/>
-      <textarea name="comment">Comment:</textarea>
-      <br/><br/>
-      <input type="submit" />
+    <form action="/data" method="POST" class = "comment-form">
+
+        <p class= "leave-a-comment"> Leave a comment!<p>
+        <textarea name="name" placeholder= "Name:"></textarea>
+        <br/><br/>
+        <textarea name="email" placeholder= "Email:"></textarea>
+        <br/><br/>
+        <textarea name="comment" placeholder="Comment:"></textarea>
+        <br/><br/>
+        <input type="submit" />
     </form>
     
-   <!-- <p>Click here to get a message:</p>
-    <button onclick="getMessage()">Give Me a Message!</button>
-    <h1><div id = "hello-container"></div></h1>-->
+    <span id = "comment-container"> </span>
 
-     
+     </div>
 
   <script> 
     createSocials(socialList,".social-container")

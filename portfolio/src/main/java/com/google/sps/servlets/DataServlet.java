@@ -37,12 +37,14 @@ public class DataServlet extends HttpServlet {
         String email;
         String comment;
         long timestamp; 
+        long id;
   
-        public Comment(String name, String email, String comment, long timestamp) {
+        public Comment(String name, String email, String comment, long timestamp, long id) {
             this.name = name;
             this.email = email;
             this.comment = comment;
             this.timestamp =timestamp;
+            this.id= id;
         }
     }
 
@@ -54,21 +56,36 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+
+
     for (Entity entity : results.asIterable()) {
+        
         long id = entity.getKey().getId();
         String name = (String) entity.getProperty("name");
         String email = (String) entity.getProperty("email");
         String comment = (String) entity.getProperty("comment");
         long timestamp = (long) entity.getProperty("timestamp");
         
-        Comment user_comment = new Comment(name, email, comment,timestamp);
-        comments.add(user_comment);
+        Comment user_comment = new Comment(name, email, comment,timestamp,id);
+        if (ContainsID(user_comment) == false){
+            comments.add(0,user_comment);
+        }   
+
     }
 
     String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
 
+  private boolean ContainsID(Comment comment){
+      boolean exists= false;
+      for (Comment current : comments){
+          if (current.id == comment.id){
+              exists =true;
+          }   
+      }
+      return exists;
   }
 
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
