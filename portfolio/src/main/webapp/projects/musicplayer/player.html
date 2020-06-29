@@ -2,8 +2,8 @@
 <header>
    <title>Music Player</title>
    <link rel="stylesheet" type="text/css" href="ipod.css"/>
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </header>
 <body>
    <div id="screen">
@@ -19,15 +19,15 @@
         <p><em>Coloring Book</em> - Chance the Rapper</p>
       </div>
 
-      <div><input type="range" id="player-time" value="0" min="0" max="180" onchange="timeElapsed()"> </div> <!used onchange to change time-elapsed with value of player-time>
+      <div><input type="range" id="player-time" value="0" min="0" max="180" onchange="timeElapsed()"> </div> <!--used onchange to change time-elapsed with value of player-time-->
       <span id="time-elapsed">0:00</span>  
       <span id="time-total">3:00</span> 
 
 
       <div class="player-controls">
-        <button onclick="prevSong()"><i class="material-icons">skip_previous</i></button>
-        <button id="play-button" onclick="switchPlay()"><i class="material-icons">play_arrow</i></button>
-        <button onclick="nextSong()"><i class="material-icons">skip_next</i></button>
+        <button onclick="prevSong()"><span class="fa fa-backward fa-lg"></span></button>
+        <button id="play-button" onclick="switchPlay()"><span id="play-icon" class="fa fa-play fa-lg"></span></button>
+        <button onclick="nextSong()"><span class="fa fa-forward fa-lg"></span></button>
       </div>
 
       <div class="volume-bar">
