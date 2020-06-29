@@ -24,18 +24,18 @@ var memoji = setInterval(function(){
 }, 3000);
 
 
-var pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
+
+const pictures = ["/images/picture1.JPG","/images/picture2.JPG","/images/picture3.JPG","/images/picture5.jpg","/images/picture6.JPG","/images/picture7.JPG","/images/picture8.jpg","/images/picture10.jpg","/images/picture11.JPG","/images/picture12.jpg","/images/picture13.jpg","/images/picture14.jpg"];
+
 
 function createPictures(pictures,sectionSelector){
     let section = document.querySelector(sectionSelector);
     if(section){
-        if (pictures instanceof Array){
-            for(let picture of pictures){
-                let image = document.createElement("img");
-                image.className = "picture";
-                image.src = picture;
-                section.append(image);
-                }
+        for(let picture of pictures){
+            let image = document.createElement("img");
+            image.className = "picture";
+            image.src = picture;
+            section.append(image);
         }
     }
 }
@@ -72,42 +72,39 @@ var projects = [
 
 function createProjects(projects, sectionSelector){
     let section = document.querySelector(sectionSelector);
-    if(section){
-        if (projects instanceof Array){
-            for(let project of projects){
+    if(section){ 
+        for(let project of projects){
+            let imageContainer = document.createElement("div");
+            let projectLink = document.createElement("a");
+            projectLink.href = project.link;
+            let projectImage = document.createElement("img");
+            projectImage.src = project.image;
+            projectLink.append(projectImage);
+            imageContainer.append(projectLink);
 
-               let imageContainer = document.createElement("div");
-               let projectLink = document.createElement("a");
-               projectLink.href = project.link;
-               let projectImage = document.createElement("img");
-               projectImage.src = project.image;
-               projectLink.append(projectImage);
-               imageContainer.append(projectLink);
+            let projectTitleLink = document.createElement("a");
+            projectTitleLink.className = "project-title";
+            projectTitleLink.href = project.link;
+            let projectTitle = document.createElement("div");
+            projectTitle.innerText = project.title;
+            projectTitleLink.append(projectTitle);
 
-               let projectTitleLink = document.createElement("a");
-               projectTitleLink.className = "project-title";
-               projectTitleLink.href = project.link;
-               let projectTitle = document.createElement("div");
-               projectTitle.innerText = project.title;
-               projectTitleLink.append(projectTitle);
+            let projectDescription = document.createElement("div");
+            projectDescription.className = "project-text";
+            projectDescription.innerText = project.text;
 
-               let projectDescription = document.createElement("div");
-               projectDescription.className = "project-text";
-               projectDescription.innerText = project.text;
-                
-
-                let container = document.createElement("div");
-                container.className = "project-container";
-                container.append(imageContainer);
-                container.append(projectTitleLink);
-                container.append(projectDescription);
-                section.append(container);
-            }
+            let container = document.createElement("div");
+            container.className = "project-container";
+            container.append(imageContainer);
+            container.append(projectTitleLink);
+            container.append(projectDescription);
+            section.append(container);
         }
     }
 }
 
-var socials = [
+
+var socialList = [
     {
         image:"/images/linkedin.png",
         link:"https://www.linkedin.com/in/rena-upadhyay-6b8b36173"
@@ -126,25 +123,25 @@ var socials = [
     }
 ]
 
-function createSocials(socials, sectionSelector){
+function createSocials(socialList, sectionSelector){
     let section = document.querySelector(sectionSelector);
     if(section){
-        if (socials instanceof Array){
-            for(let social of socials){
-                let container = document.createElement("div");
-                container.className = "social";
-                let link = document.createElement("a");
-                link.href = social.link;
-                let image = document.createElement("img");
-                image.className= "social-image";
-                image.src = social.image;
-                link.append(image)
-                container.append(link);
-                section.append(container);
-            }
+        for(let social of socialList){
+            let container = document.createElement("div");
+            container.className = "social";
+            let link = document.createElement("a");
+            link.href = social.link;
+            let image = document.createElement("img");
+            image.className= "social-image";
+            image.src = social.image;
+            link.append(image)
+            container.append(link);
+            section.append(container);
+            
         }
     }
 }
+    
 
 function getHello(){
     fetch('/data').then(response => response.text()).then((hello) => {

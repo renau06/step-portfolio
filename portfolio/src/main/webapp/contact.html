@@ -18,18 +18,12 @@
         </nav>
         
     <div id = "content">
-        <section class = "socials">
-
-        </section>
-
-        <hr>
+        <section class = "social-container"></section>
 
         <p class = "email"> email: <a href = "mailto: renau@google.com">renau@google.com</a> </p>
         <p class = "phone"> phone: 727-417-8552</p>
-      
-      
-      
     </div>
+
 
     <p>Click here to say hello:</p>
     <button onclick="getHello()">Say Hello!</button>
@@ -38,8 +32,9 @@
     </h1>
 
     
+  <script> 
+    createSocials(socialList,".social-container")
+  </script>
 
-  <script> createSocials(socials,".socials")
-      </script>
   </body>
 </html>
