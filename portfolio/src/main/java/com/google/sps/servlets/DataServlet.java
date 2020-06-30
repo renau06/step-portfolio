@@ -48,29 +48,35 @@ public class DataServlet extends HttpServlet {
         }
     }
 
-    ArrayList<Comment> comments = new ArrayList<Comment>();
+    
     
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    ArrayList<Comment> comments = new ArrayList<Comment>();
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-
-
+    String userChoice = request.getParameter("num");
+    int maxComments;
+    maxComments = Integer.parseInt(userChoice);
+    int i =0;
+    if(comments.size() < maxComments){
     for (Entity entity : results.asIterable()) {
+        if (i < maxComments){
+            long id = entity.getKey().getId();
+            String name = (String) entity.getProperty("name");
+            String email = (String) entity.getProperty("email");
+            String comment = (String) entity.getProperty("comment");
+            long timestamp = (long) entity.getProperty("timestamp");
         
-        long id = entity.getKey().getId();
-        String name = (String) entity.getProperty("name");
-        String email = (String) entity.getProperty("email");
-        String comment = (String) entity.getProperty("comment");
-        long timestamp = (long) entity.getProperty("timestamp");
-        
-        Comment user_comment = new Comment(name, email, comment,timestamp,id);
-        if (ContainsID(user_comment) == false){
-            comments.add(0,user_comment);
-        }   
-
+            Comment user_comment = new Comment(name, email, comment,timestamp,id);
+              ///  if (ContainsID(user_comment) == false){
+                    comments.add(0,user_comment);
+               // }   
+        }
+        i++;
+    }
     }
 
     String json = convertToJsonUsingGson(comments);
@@ -78,7 +84,8 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  private boolean ContainsID(Comment comment){
+
+ /* private boolean ContainsID(Comment comment){
       boolean exists= false;
       for (Comment current : comments){
           if (current.id == comment.id){
@@ -86,7 +93,7 @@ public class DataServlet extends HttpServlet {
           }   
       }
       return exists;
-  }
+  }*/
 
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.

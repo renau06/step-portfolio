@@ -145,10 +145,15 @@ function createSocials(socialList, sectionSelector){
 
 
 function loadComments(){
-    fetch('/data').then(response => response.json()).then((comments) => {
+    let choiceForm = document.getElementById("comment-number");
+    let choice = choiceForm.options[choiceForm.selectedIndex];
+    fetch('/data?num='+ choice.value).then(response => response.json()).then((comments) => {
    const commentContainer= document.getElementById('comment-container');
+   while(commentContainer.firstChild){
+    commentContainer.removeChild(commentContainer.firstChild);
+    }
     comments.forEach((comment) => {
-        commentContainer.appendChild(createComment(comment));
+        commentContainer.appendChild(createComment(comment))   
     })
   });
 }

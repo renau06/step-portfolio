@@ -38,7 +38,19 @@
         <input type="submit" />
     </form>
     
-    <span id = "comment-container"> </span>
+    <div class = "comment-choice-container">
+    <label>Choose how many comments you want to appear:</label>
+        <select name="comment-number" id="comment-number" onchange= "loadComments()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+
+    <span id = "comment-container"> 
+    
+    </span>
+    </div>
 
      </div>
 
