@@ -248,14 +248,20 @@ textarea{
     font-size: 16px;
 }
 
+.choose-comment-number{
+    padding-top:.5vw;
+    color:#5e1914;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+    font-size:1vw;
+}
+
 .comment-choice-container{
     grid-row: 1/span 1;
     grid-column: 2/span 2;
+    padding:1vw;
 }
 
-.comment{
-    line-height:60%:
-}
 
 .comment-name{
     position:relative;
@@ -273,3 +279,6 @@ textarea{
     font-size:1.3vw;
 }
 
+.delete-button{
+    margin-top: 1vw;
+}

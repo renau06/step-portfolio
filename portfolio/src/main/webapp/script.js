@@ -149,13 +149,12 @@ function loadComments(){
     let choice = choiceForm.options[choiceForm.selectedIndex];
     fetch('/data?num='+ choice.value).then(response => response.json()).then((comments) => {
    const commentContainer= document.getElementById('comment-container');
-   while(commentContainer.firstChild){
-    commentContainer.removeChild(commentContainer.firstChild);
-    }
+   commentContainer.innerText="";
     comments.forEach((comment) => {
-        commentContainer.appendChild(createComment(comment))   
+        commentContainer.appendChild(createComment(comment));   
     })
   });
+  console.log("comments loaded");
 }
 
 function createComment(comment){
@@ -176,9 +175,18 @@ function createComment(comment){
 
 }
 
+function deleteComments(comments){
+    console.log("in delete") ;
+    fetch('/data?num=20').then(response => response.json()).then((comments) => {
+    comments.forEach((comment) => {
+        console.log("comment deleted");
+        const params = new URLSearchParams();
+        params.append('id', comment.id); 
+        fetch('/delete-data', {method: 'POST', body: params}).then(()=> loadComments());  
+    });
+  });
 
-function deleteComments(){
-  fetch('/delete-data', {method: 'POST'}).then (loadComments()); 
 }
+
 
 

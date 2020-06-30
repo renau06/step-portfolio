@@ -39,7 +39,7 @@
     </form>
     
     <div class = "comment-choice-container">
-    <label>Choose how many comments you want to appear:</label>
+    <label class = "choose-comment-number">Choose how many comments you want to appear:</label>
         <select name="comment-number" id="comment-number" onchange= "loadComments()">
             <option value="5">5</option>
             <option value="10">10</option>
@@ -50,8 +50,10 @@
     <span id = "comment-container"> 
     
     </span>
-    <button onclick="deleteComments()">Delete All Comments</button>
+    <button class= "delete-button" onclick="deleteComments()">Delete All Comments</button>
+    
     </div>
+   
 
      </div>
 
