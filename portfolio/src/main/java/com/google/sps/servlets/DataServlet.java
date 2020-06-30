@@ -61,7 +61,6 @@ public class DataServlet extends HttpServlet {
     int maxComments;
     maxComments = Integer.parseInt(userChoice);
     int i =0;
-    if(comments.size() < maxComments){
     for (Entity entity : results.asIterable()) {
         if (i < maxComments){
             long id = entity.getKey().getId();
@@ -71,13 +70,11 @@ public class DataServlet extends HttpServlet {
             long timestamp = (long) entity.getProperty("timestamp");
         
             Comment user_comment = new Comment(name, email, comment,timestamp,id);
-              ///  if (ContainsID(user_comment) == false){
-                    comments.add(0,user_comment);
-               // }   
+                    comments.add(0,user_comment);        
         }
         i++;
     }
-    }
+    
 
     String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json;");
@@ -85,15 +82,6 @@ public class DataServlet extends HttpServlet {
   }
 
 
- /* private boolean ContainsID(Comment comment){
-      boolean exists= false;
-      for (Comment current : comments){
-          if (current.id == comment.id){
-              exists =true;
-          }   
-      }
-      return exists;
-  }*/
 
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
@@ -132,3 +120,6 @@ public class DataServlet extends HttpServlet {
   }
 
 }
+
+
+

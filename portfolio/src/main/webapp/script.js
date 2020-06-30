@@ -177,6 +177,8 @@ function createComment(comment){
 }
 
 
-
+function deleteComments(){
+  fetch('/delete-data', {method: 'POST'}).then (loadComments()); 
+}
 
 
