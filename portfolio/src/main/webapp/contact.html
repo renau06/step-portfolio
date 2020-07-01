@@ -24,19 +24,23 @@
         <p class = "phone"> phone: 727-417-8552</p>
     </div>
 
-    <div class= "form-comment-wrapper">
+    <div id= "form-comment-wrapper">
 
-    <form action="/data" method="POST" class = "comment-form">
+    <div id="form-login-wrapper">
+    <form action="/data" method="POST" id = "comment-form">
 
         <p class= "leave-a-comment"> Leave a comment!<p>
         <textarea name="name" placeholder= "Name:"></textarea>
-        <br/><br/>
-        <textarea name="email" placeholder= "Email:"></textarea>
         <br/><br/>
         <textarea name="comment" placeholder="Comment:"></textarea>
         <br/><br/>
         <input type="submit" />
     </form>
+
+    <div id="login-link"></div>
+
+    </div>
+
     
     <div class = "comment-choice-container">
     <label class = "choose-comment-number">Choose how many comments you want to appear:</label>

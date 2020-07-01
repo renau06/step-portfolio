@@ -217,7 +217,7 @@ h1{
     top:-2vw;
 }
 
-.form-comment-wrapper{
+#form-comment-wrapper{
     margin-left:20vw;
     margin-right:20vw;
     padding-left:2vw;
@@ -229,9 +229,14 @@ h1{
     border-radius:5%;
 }
 
-.comment-form {
+#form-login-wrapper {
     grid-row: 1/span 1;
     grid-column: 1/span 1;
+    
+}
+
+#comment-form{
+    display:none;
 }
 
 .leave-a-comment{

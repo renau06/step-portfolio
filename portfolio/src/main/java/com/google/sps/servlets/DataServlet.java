@@ -19,6 +19,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -70,7 +72,7 @@ public class DataServlet extends HttpServlet {
             long timestamp = (long) entity.getProperty("timestamp");
         
             Comment user_comment = new Comment(name, email, comment,timestamp,id);
-                    comments.add(0,user_comment);        
+                comments.add(0,user_comment);        
         }
         i++;
     }
@@ -85,8 +87,10 @@ public class DataServlet extends HttpServlet {
 
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
+    UserService userService = UserServiceFactory.getUserService();
+
     String name = request.getParameter("name");
-    String email = request.getParameter("email");
+    String email = userService.getCurrentUser().getEmail();
     String comment = request.getParameter("comment");
     long timestamp = System.currentTimeMillis();
 
