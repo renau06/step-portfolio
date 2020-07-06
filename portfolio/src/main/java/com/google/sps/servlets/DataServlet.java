@@ -30,16 +30,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that returns data of comments*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+    private final Gson gson = new Gson();
 
-    public class Comment{ 
-        String name; 
-        String email;
-        String comment;
-        long timestamp; 
-        long id;
+    public static class Comment { 
+        private final String name; 
+        private final String email;
+        private final String comment;
+        private final long timestamp; 
+        private final long id;
   
         public Comment(String name, String email, String comment, long timestamp, long id) {
             this.name = name;
@@ -71,14 +72,14 @@ public class DataServlet extends HttpServlet {
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
         
-            Comment user_comment = new Comment(name, email, comment,timestamp,id);
-                comments.add(0,user_comment);        
+            Comment userComment = new Comment(name, email, comment,timestamp,id);
+                    comments.add(0,userComment);        
         }
         i++;
     }
     
 
-    String json = convertToJsonUsingGson(comments);
+    String json = gson.toJson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
@@ -103,24 +104,6 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
     response.sendRedirect("/contact.html");
-  }
-
-  
-  private String convertToJson(ArrayList<String> messages) {
-    String json = "[";
-    json += "\"" + messages.get(0) + "\"";
-    for (int i=1; i<messages.size(); i++){
-        json += ", ";
-        json += "\"" + messages.get(i) + "\"";
-    }
-    json += "]";
-    return json;
-  }
-
-  private String convertToJsonUsingGson(ArrayList<Comment> comments) {
-    Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    return json;
   }
 
    private String getUserNickname(String id) {

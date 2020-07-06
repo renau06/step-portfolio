@@ -173,8 +173,8 @@ function loadComments(){
     let choiceForm = document.getElementById("comment-number");
     let choice = choiceForm.options[choiceForm.selectedIndex];
     fetch('/data?num='+ choice.value).then(response => response.json()).then((comments) => {
-   const commentContainer= document.getElementById('comment-container');
-   commentContainer.innerText="";
+    const commentContainer= document.getElementById('comment-container');
+    commentContainer.innerText="";
     comments.forEach((comment) => {
         commentContainer.appendChild(createComment(comment));   
     })
