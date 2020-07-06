@@ -54,13 +54,9 @@ public class LoginServlet extends HttpServlet {
       response.getWriter().println(json);
       return;
     }
-    String nickname = getUserNickname(userService.getCurrentUser().getUserId());
-    /*if (userService.isUserLoggedIn() && nickname == null) {
-        response.sendRedirect("/nickname");
-        return;
-    }*/
     
-    if (userService.isUserLoggedIn() && nickname != null) {
+    if (userService.isUserLoggedIn())
+     {
       String userEmail = userService.getCurrentUser().getEmail();
       String urlToRedirectToAfterUserLogsOut = "/contact.html";
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
