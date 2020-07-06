@@ -143,7 +143,50 @@ function createSocials(socialList, sectionSelector){
 }
     
 
-   
+
+function loadComments(){
+    let choiceForm = document.getElementById("comment-number");
+    let choice = choiceForm.options[choiceForm.selectedIndex];
+    fetch('/data?num='+ choice.value).then(response => response.json()).then((comments) => {
+    const commentContainer= document.getElementById('comment-container');
+    commentContainer.innerText="";
+    comments.forEach((comment) => {
+        commentContainer.appendChild(createComment(comment));   
+    })
+  });
+  console.log("comments loaded");
+}
+
+function createComment(comment){
+    let commentElement = document.createElement("div");
+    commentElement.className = "comment";
+
+    let commentName = document.createElement("p");
+    commentName.className= "comment-name";
+    commentName.innerText = comment.name;
+
+    let commentDescription = document.createElement("p");
+    commentDescription.className ="comment-description";
+    commentDescription.innerText = comment.comment;
+
+    commentElement.appendChild(commentName);
+    commentElement.appendChild(commentDescription);
+    return commentElement;
+
+}
+
+function deleteComments(comments){
+    console.log("in delete") ;
+    fetch('/data?num=20').then(response => response.json()).then((comments) => {
+    comments.forEach((comment) => {
+        console.log("comment deleted");
+        const params = new URLSearchParams();
+        params.append('id', comment.id); 
+        fetch('/delete-data', {method: 'POST', body: params}).then(()=> loadComments());  
+    });
+  });
+
+}
 
 
 

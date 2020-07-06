@@ -7,7 +7,7 @@
     <script src="script.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Karla&family=Rubik:wght@500;700&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body onload="loadComments()">
       <nav class= "top-nav">
             <ul>
                 <li><a href="/index.html">about me.</a></li>
@@ -23,6 +23,39 @@
         <p class = "email"> email: <a href = "mailto: renau@google.com">renau@google.com</a> </p>
         <p class = "phone"> phone: 727-417-8552</p>
     </div>
+
+    <div class= "form-comment-wrapper">
+
+    <form action="/data" method="POST" class = "comment-form">
+
+        <p class= "leave-a-comment"> Leave a comment!<p>
+        <textarea name="name" placeholder= "Name:"></textarea>
+        <br/><br/>
+        <textarea name="email" placeholder= "Email:"></textarea>
+        <br/><br/>
+        <textarea name="comment" placeholder="Comment:"></textarea>
+        <br/><br/>
+        <input type="submit" />
+    </form>
+    
+    <div class = "comment-choice-container">
+    <label class = "choose-comment-number">Choose how many comments you want to appear:</label>
+        <select name="comment-number" id="comment-number" onchange= "loadComments()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+
+    <div id = "comment-container"> 
+    
+    </div>
+    <button class= "delete-button" onclick="deleteComments()">Delete All Comments</button>
+    
+    </div>
+   
+
+     </div>
 
   <script> 
     createSocials(socialList,".social-container")
