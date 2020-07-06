@@ -146,16 +146,21 @@ function createSocials(socialList, sectionSelector){
 
 function loadComments(){
     fetch("/login-status").then(response => response.json()).then((login) =>{
-        document.getElementById("login-link").innerText="";
+        document.getElementById("login-link").innerHTML="";
         let status= login.status;
-        console.log(status);
         let form = document.getElementById("comment-form");
         if (status == "true"){
             form.style.display = "block";
             let logoutLink= document.createElement("a");
             logoutLink.href = login.url;
             logoutLink.innerText= "Logout";
-            document.getElementById("form-login-wrapper").append(logoutLink);
+            document.getElementById("login-link").append(logoutLink);
+            let space = document.createElement("br");
+            document.getElementById("login-link").append(space);
+            let nicknameLink=document.createElement("a");
+            nicknameLink.href = "/nickname";
+            nicknameLink.innerText = "Set/Change Nickname";
+            document.getElementById("login-link").append(nicknameLink);
         }
         else if (status =="false") {
             form.style.display="hidden";
@@ -183,7 +188,7 @@ function createComment(comment){
 
     let commentName = document.createElement("p");
     commentName.className= "comment-name";
-    commentName.innerText = comment.email;
+    commentName.innerText = comment.name;
 
     let commentDescription = document.createElement("p");
     commentDescription.className ="comment-description";

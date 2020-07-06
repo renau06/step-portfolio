@@ -89,7 +89,7 @@ public class DataServlet extends HttpServlet {
     // Get the input from the form.
     UserService userService = UserServiceFactory.getUserService();
 
-    String name = request.getParameter("name");
+    String name = getUserNickname(userService.getCurrentUser().getUserId());
     String email = userService.getCurrentUser().getEmail();
     String comment = request.getParameter("comment");
     long timestamp = System.currentTimeMillis();
@@ -121,6 +121,20 @@ public class DataServlet extends HttpServlet {
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     return json;
+  }
+
+   private String getUserNickname(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("UserInfo")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    if (entity == null) {
+      return "";
+    }
+    String nickname = (String) entity.getProperty("nickname");
+    return nickname;
   }
 
 }
