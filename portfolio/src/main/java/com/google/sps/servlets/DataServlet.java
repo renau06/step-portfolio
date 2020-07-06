@@ -37,12 +37,12 @@ import java.util.ArrayList;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-    public class Comment{ 
-        String name; 
-        String email;
-        String comment;
-        long timestamp; 
-        long id;
+    public static class Comment{ 
+        private final String name; 
+        private final final String email;
+        private final String comment;
+        private final long timestamp; 
+        private final long id;
   
         public Comment(String name, String email, String comment, long timestamp, long id) {
             this.name = name;
@@ -89,6 +89,7 @@ public class DataServlet extends HttpServlet {
 
     String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json;");
+    response.setCharacterEncoding("UTF-8");
     response.getWriter().println(json);
   }
 
