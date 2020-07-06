@@ -31,13 +31,14 @@ import java.util.ArrayList;
 /** Servlet that returns data of comments*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+    private final Gson gson = new Gson();
 
-    public class Comment { 
-        String name; 
-        String email;
-        String comment;
-        long timestamp; 
-        long id;
+    public static class Comment { 
+        private final String name; 
+        private final String email;
+        private final String comment;
+        private final long timestamp; 
+        private final long id;
   
         public Comment(String name, String email, String comment, long timestamp, long id) {
             this.name = name;
@@ -76,7 +77,7 @@ public class DataServlet extends HttpServlet {
     }
     
 
-    String json = convertToJsonUsingGson(comments);
+    String json = gson.toJson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
@@ -99,12 +100,6 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
     response.sendRedirect("/contact.html");
-  }
-
-  private String convertToJsonUsingGson(ArrayList<Comment> comments) {
-    Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    return json;
   }
 
 }
