@@ -13,6 +13,9 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -59,9 +62,10 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    String userChoice = request.getParameter("num");
+    String numChoice = request.getParameter("num");
+    String languageChoice = request.getParameter("language");
     int maxComments;
-    maxComments = Integer.parseInt(userChoice);
+    maxComments = Integer.parseInt(numChoice);
     int i =0;
     for (Entity entity : results.asIterable()) {
         if (i < maxComments){
@@ -70,8 +74,13 @@ public class DataServlet extends HttpServlet {
             String email = (String) entity.getProperty("email");
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
+
+            Translate translate = TranslateOptions.getDefaultInstance().getService();
+            Translation translation =
+                translate.translate(comment, Translate.TranslateOption.targetLanguage(languageChoice));
+            String translatedText = translation.getTranslatedText();
         
-            Comment user_comment = new Comment(name, email, comment,timestamp,id);
+            Comment user_comment = new Comment(name, email, translatedText,timestamp,id);
                 comments.add(0,user_comment);        
         }
         i++;

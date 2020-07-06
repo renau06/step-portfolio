@@ -170,11 +170,13 @@ function loadComments(){
             document.getElementById("login-link").append(loginLink);
         }
     });
-    let choiceForm = document.getElementById("comment-number");
-    let choice = choiceForm.options[choiceForm.selectedIndex];
-    fetch('/data?num='+ choice.value).then(response => response.json()).then((comments) => {
-   const commentContainer= document.getElementById('comment-container');
-   commentContainer.innerText="";
+    let numchoiceForm = document.getElementById("comment-number");
+    let numChoice = numchoiceForm.options[numchoiceForm.selectedIndex];
+    let languageForm = document.getElementById("comment-language");
+    let languageChoice = languageForm.options[languageForm.selectedIndex];
+    fetch('/data?num='+ numChoice.value + '&language=' + languageChoice.value).then(response => response.json()).then((comments) => {
+    const commentContainer= document.getElementById('comment-container');
+    commentContainer.innerText="";
     comments.forEach((comment) => {
         commentContainer.appendChild(createComment(comment));   
     })
