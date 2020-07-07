@@ -158,7 +158,7 @@ function loadComments(){
             let space = document.createElement("br");
             document.getElementById("login-link").append(space);
             let nicknameLink=document.createElement("a");
-            nicknameLink.href = "/nickname";
+            nicknameLink.href = "/nickname.html";
             nicknameLink.innerText = "Set/Change Nickname";
             document.getElementById("login-link").append(nicknameLink);
         }

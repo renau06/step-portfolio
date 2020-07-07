@@ -31,8 +31,9 @@ import com.google.gson.Gson;
 
 @WebServlet("/login-status")
 public class LoginServlet extends HttpServlet {
+    Gson gson = new Gson();
 
-     public class Login{ 
+    public class Login{ 
         String status;
         String url;
   
@@ -41,50 +42,33 @@ public class LoginServlet extends HttpServlet {
             this.url = url;
         }
     }
+
+    private static final String urlToRedirectToAfterUserLogsIn = "/nickname.html";
+    private static final String urlToRedirectToAfterUserLogsOut = "/contact.html";
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     String loginStatus = Boolean.toString(userService.isUserLoggedIn());
     if (!userService.isUserLoggedIn()) {
-      String urlToRedirectToAfterUserLogsIn = "/nickname";
+      
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
       Login login = new Login(loginStatus,loginUrl);
-      String json = convertToJsonUsingGson(login);
+      String json = gson.toJson(login);
       response.setContentType("application/json;");
       response.getWriter().println(json);
       return;
     }
-    
+   
     if (userService.isUserLoggedIn())
      {
       String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/contact.html";
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
       Login login = new Login(loginStatus,logoutUrl);
-      String json = convertToJsonUsingGson(login);
+      String json = gson.toJson(login);
       response.setContentType("application/json;");
       response.getWriter().println(json);
     } 
    
   }
 
-   private String convertToJsonUsingGson(Login login) {
-    Gson gson = new Gson();
-    String json = gson.toJson(login);
-    return json;
-  }
-
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "";
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
-  }
 }
