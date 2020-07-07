@@ -284,6 +284,14 @@ textarea{
     font-size:1.3vw;
 }
 
+.comment-score{
+    position:relative;
+    top:-1.5vw;
+    font-family: 'Karla', sans-serif;
+    font-weight:400;
+    font-size:1vw;
+
+}
 .delete-button{
     margin-top: 1vw;
 }

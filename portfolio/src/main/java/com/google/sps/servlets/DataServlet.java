@@ -13,6 +13,9 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
@@ -39,17 +42,19 @@ public class DataServlet extends HttpServlet {
 
     public static class Comment{ 
         private final String name; 
-        private final final String email;
+        private final String email;
         private final String comment;
         private final long timestamp; 
         private final long id;
+        private final double score;
   
-        public Comment(String name, String email, String comment, long timestamp, long id) {
+        public Comment(String name, String email, String comment, long timestamp, long id, double score) {
             this.name = name;
             this.email = email;
             this.comment = comment;
             this.timestamp =timestamp;
-            this.id= id;
+            this.id = id;
+            this.score = score;
         }
     }
 
@@ -74,13 +79,14 @@ public class DataServlet extends HttpServlet {
             String email = (String) entity.getProperty("email");
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
+            double score = (double) entity.getProperty("score");
 
             Translate translate = TranslateOptions.getDefaultInstance().getService();
             Translation translation =
                 translate.translate(comment, Translate.TranslateOption.targetLanguage(languageChoice));
             String translatedText = translation.getTranslatedText();
         
-            Comment user_comment = new Comment(name, email, translatedText,timestamp,id);
+            Comment user_comment = new Comment(name, email, translatedText,timestamp,id, score);
                 comments.add(0,user_comment);        
         }
         i++;
@@ -104,11 +110,21 @@ public class DataServlet extends HttpServlet {
     String comment = request.getParameter("comment");
     long timestamp = System.currentTimeMillis();
 
+    Document doc =
+        Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    float score = sentiment.getScore();
+    languageService.close();
+
+    
+
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("email", email);
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("score",score);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);

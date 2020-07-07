@@ -196,8 +196,13 @@ function createComment(comment){
     commentDescription.className ="comment-description";
     commentDescription.innerText = comment.comment;
 
+    let commentScore = document.createElement("p");
+    commentScore.className ="comment-score";
+    commentScore.innerText = comment.score;
+
     commentElement.appendChild(commentName);
     commentElement.appendChild(commentDescription);
+    commentElement.appendChild(commentScore);
     return commentElement;
 
 }
