@@ -31,11 +31,11 @@ import com.google.gson.Gson;
 
 @WebServlet("/login-status")
 public class LoginServlet extends HttpServlet {
-    Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
-    public class Login{ 
-        String status;
-        String url;
+    public static class Login{ 
+        private final String status;
+        private final String url;
   
         public Login(String status, String url) {
             this.status =status;
@@ -43,15 +43,15 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    private static final String urlToRedirectToAfterUserLogsIn = "/nickname.html";
-    private static final String urlToRedirectToAfterUserLogsOut = "/contact.html";
+    private static final String URL_TO_REDIRECT_TO_AFTER_LOGSIN = "/nickname.html";
+    private static final String URL_TO_REDIRECT_TO_AFTER_LOGSOUT = "/contact.html";
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     String loginStatus = Boolean.toString(userService.isUserLoggedIn());
     if (!userService.isUserLoggedIn()) {
       
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
+      String loginUrl = userService.createLoginURL(URL_TO_REDIRECT_TO_AFTER_LOGSIN);
       Login login = new Login(loginStatus,loginUrl);
       String json = gson.toJson(login);
       response.setContentType("application/json;");
@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
     if (userService.isUserLoggedIn())
      {
       String userEmail = userService.getCurrentUser().getEmail();
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+      String logoutUrl = userService.createLogoutURL(URL_TO_REDIRECT_TO_AFTER_LOGSOUT);
       Login login = new Login(loginStatus,logoutUrl);
       String json = gson.toJson(login);
       response.setContentType("application/json;");
