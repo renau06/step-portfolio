@@ -50,8 +50,6 @@ public class DataServlet extends HttpServlet {
             this.id= id;
         }
     }
-
-    
     
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -106,7 +104,7 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/contact.html");
   }
 
-   private String getUserNickname(String id) {
+    private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
         new Query("UserInfo")

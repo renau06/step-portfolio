@@ -149,7 +149,7 @@ function loadComments(){
         document.getElementById("login-link").innerHTML="";
         let status= login.status;
         let form = document.getElementById("comment-form");
-        if (status == "true"){
+        if (status == true){
             form.style.display = "block";
             let logoutLink= document.createElement("a");
             logoutLink.href = login.url;
@@ -162,7 +162,7 @@ function loadComments(){
             nicknameLink.innerText = "Set/Change Nickname";
             document.getElementById("login-link").append(nicknameLink);
         }
-        else if (status =="false") {
+        else if (status ==false) {
             form.style.display="hidden";
             let loginLink= document.createElement("a");
             loginLink.href = login.url;

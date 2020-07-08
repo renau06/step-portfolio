@@ -34,11 +34,11 @@ public class LoginServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
     public static class Login{ 
-        private final String status;
+        private final Boolean status;
         private final String url;
   
-        public Login(String status, String url) {
-            this.status =status;
+        public Login(Boolean status, String url) {
+            this.status = status;
             this.url = url;
         }
     }
@@ -48,7 +48,8 @@ public class LoginServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    String loginStatus = Boolean.toString(userService.isUserLoggedIn());
+    //String loginStatus = Boolean.toString(userService.isUserLoggedIn());
+    Boolean loginStatus = userService.isUserLoggedIn();
     if (!userService.isUserLoggedIn()) {
       
       String loginUrl = userService.createLoginURL(URL_TO_REDIRECT_TO_AFTER_LOGSIN);
