@@ -104,7 +104,8 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/contact.html");
   }
 
-    private String getUserNickname(String id) {
+//left this the same
+private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
         new Query("UserInfo")
