@@ -34,10 +34,10 @@ public class LoginServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
     public static class Login{ 
-        private final Boolean status;
+        private final boolean status;
         private final String url;
   
-        public Login(Boolean status, String url) {
+        public Login(boolean status, String url) {
             this.status = status;
             this.url = url;
         }
@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     //String loginStatus = Boolean.toString(userService.isUserLoggedIn());
-    Boolean loginStatus = userService.isUserLoggedIn();
+    boolean loginStatus = userService.isUserLoggedIn();
     if (!userService.isUserLoggedIn()) {
       
       String loginUrl = userService.createLoginURL(URL_TO_REDIRECT_TO_AFTER_LOGSIN);
