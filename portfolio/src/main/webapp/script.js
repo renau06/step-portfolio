@@ -149,7 +149,7 @@ function loadComments(){
         document.getElementById("login-link").innerHTML="";
         let status= login.status;
         let form = document.getElementById("comment-form");
-        if (status == "true"){
+        if (status == true){
             form.style.display = "block";
             let logoutLink= document.createElement("a");
             logoutLink.href = login.url;
@@ -158,11 +158,11 @@ function loadComments(){
             let space = document.createElement("br");
             document.getElementById("login-link").append(space);
             let nicknameLink=document.createElement("a");
-            nicknameLink.href = "/nickname";
+            nicknameLink.href = "/nickname.html";
             nicknameLink.innerText = "Set/Change Nickname";
             document.getElementById("login-link").append(nicknameLink);
         }
-        else if (status =="false") {
+        else if (status ==false) {
             form.style.display="hidden";
             let loginLink= document.createElement("a");
             loginLink.href = login.url;
@@ -175,6 +175,7 @@ function loadComments(){
     let languageForm = document.getElementById("comment-language");
     let languageChoice = languageForm.options[languageForm.selectedIndex];
     fetch('/data?num='+ numChoice.value + '&language=' + languageChoice.value).then(response => response.json()).then((comments) => {
+
     const commentContainer= document.getElementById('comment-container');
     commentContainer.innerText="";
     comments.forEach((comment) => {

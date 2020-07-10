@@ -33,13 +33,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that returns data of comments*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+    private final Gson gson = new Gson();
 
-    public static class Comment{ 
+    public static class Comment { 
         private final String name; 
-        private final final String email;
+        private final String email;
         private final String comment;
         private final long timestamp; 
         private final long id;
@@ -52,8 +53,6 @@ public class DataServlet extends HttpServlet {
             this.id= id;
         }
     }
-
-    
     
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -79,15 +78,15 @@ public class DataServlet extends HttpServlet {
             Translation translation =
                 translate.translate(comment, Translate.TranslateOption.targetLanguage(languageChoice));
             String translatedText = translation.getTranslatedText();
-        
-            Comment user_comment = new Comment(name, email, translatedText,timestamp,id);
-                comments.add(0,user_comment);        
+
+            Comment userComment = new Comment(name, email, translatedText,timestamp,id);
+                    comments.add(0,userComment);        
         }
         i++;
     }
     
 
-    String json = convertToJsonUsingGson(comments);
+    String json = gson.toJson(comments);
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().println(json);
@@ -115,25 +114,8 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/contact.html");
   }
 
-  
-  private String convertToJson(ArrayList<String> messages) {
-    String json = "[";
-    json += "\"" + messages.get(0) + "\"";
-    for (int i=1; i<messages.size(); i++){
-        json += ", ";
-        json += "\"" + messages.get(i) + "\"";
-    }
-    json += "]";
-    return json;
-  }
-
-  private String convertToJsonUsingGson(ArrayList<Comment> comments) {
-    Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    return json;
-  }
-
-   private String getUserNickname(String id) {
+//left this the same
+private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
         new Query("UserInfo")
