@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Iterables;
+import com.google.common.collect.Iterables;
 /** Servlet that returns data of comments*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
@@ -68,10 +68,9 @@ public class DataServlet extends HttpServlet {
     Translate.TranslateOption language = Translate.TranslateOption.targetLanguage(languageChoice);
     int maxComments;
     maxComments = Integer.parseInt(numChoice);
-   // int i =0;
-    Iterables.limit(results.asIterable(),maxComments);
+   int i =0;
     for (Entity entity : results.asIterable()) {
-       // if (i < maxComments){
+        if (i < maxComments){
             long id = entity.getKey().getId();
             String name = (String) entity.getProperty("name");
             String email = (String) entity.getProperty("email");
@@ -85,8 +84,8 @@ public class DataServlet extends HttpServlet {
             Comment userComment = new Comment(name, email, translatedText,timestamp,id);
                     comments.add(0,userComment);        
         }
-      //  i++;
-    //}
+        i++;
+    }
     
 
     String json = gson.toJson(comments);
