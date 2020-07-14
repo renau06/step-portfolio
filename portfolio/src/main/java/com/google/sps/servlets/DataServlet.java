@@ -66,10 +66,8 @@ public class DataServlet extends HttpServlet {
     
     String numChoice = request.getParameter("num");
     String languageChoice = request.getParameter("language");
-    Translate.TranslateOption language = Translate.TranslateOption.targetLanguage(languageChoice);
     int maxComments;
     maxComments = Integer.parseInt(numChoice);
-    
     int i =0;
     for (Entity entity : results.asIterable()) {
         if (i < maxComments){
@@ -80,7 +78,7 @@ public class DataServlet extends HttpServlet {
             long timestamp = (long) entity.getProperty("timestamp");
             
             Translation translation =
-                translate.translate(comment, language);
+                translate.translate(comment, Translate.TranslateOption.targetLanguage(languageChoice));
             String translatedText = translation.getTranslatedText();
 
             Comment userComment = new Comment(name, email, translatedText,timestamp,id);
