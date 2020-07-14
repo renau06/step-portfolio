@@ -25,6 +25,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.common.collect.Iterables;
 
 import java.io.IOException;
 import java.util.List;
@@ -66,11 +67,13 @@ public class DataServlet extends HttpServlet {
     
     String numChoice = request.getParameter("num");
     String languageChoice = request.getParameter("language");
+    Translate.TranslateOption targetLanguage = Translate.TranslateOption.targetLanguage(languageChoice);
     int maxComments;
     maxComments = Integer.parseInt(numChoice);
-    int i =0;
-    for (Entity entity : results.asIterable()) {
-        if (i < maxComments){
+    //int i =0;
+    for (Entity entity : Iterables.limit(results.asIterable(), maxComments)) {
+   // for (Entity entity : results.asIterable()) {
+        //if (i < maxComments){
             long id = entity.getKey().getId();
             String name = (String) entity.getProperty("name");
             String email = (String) entity.getProperty("email");
@@ -78,14 +81,14 @@ public class DataServlet extends HttpServlet {
             long timestamp = (long) entity.getProperty("timestamp");
             
             Translation translation =
-                translate.translate(comment, Translate.TranslateOption.targetLanguage(languageChoice));
+                translate.translate(comment, targetLanguage);
             String translatedText = translation.getTranslatedText();
 
             Comment userComment = new Comment(name, email, translatedText,timestamp,id);
                     comments.add(0,userComment);        
         }
-        i++;
-    }
+       // i++;
+    //}
     
 
     String json = gson.toJson(comments);
