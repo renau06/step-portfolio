@@ -22,23 +22,27 @@ import java.util.Arrays;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    Collection<TimeRange> times = new ArrayList<TimeRange>();
+    Collection<TimeRange> mandatory_times = new ArrayList<TimeRange>();
+    Collection<TimeRange> optional_times = new ArrayList<TimeRange>();
     if (request.getDuration() <= 1440){
-      Collection<String> meeting_attendees = request.getAttendees();
-      boolean attendee_overlap = false;
-      times.add(TimeRange.WHOLE_DAY);
+      Collection<String> mandatory_attendees = request.getAttendees();
+      Collection<String> optional_attendees = request.getOptionalAttendees();
+      mandatory_times.add(TimeRange.WHOLE_DAY);
+      optional_times.add(TimeRange.WHOLE_DAY);
+      
       for (Event event : events){
+        boolean mandatory_attendee_overlap = false;
         Set<String> event_attendees = event.getAttendees();
         for (String attendee : event_attendees){
-          if (meeting_attendees.contains(attendee)){
-            attendee_overlap = true;
+          if (mandatory_attendees.contains(attendee)){
+            mandatory_attendee_overlap = true;
             break;
             }
         }
-        if (attendee_overlap ==  true){ 
+        if (mandatory_attendee_overlap ==  true){ 
             ArrayList<TimeRange> to_remove = new ArrayList<TimeRange>();
             ArrayList<TimeRange> to_add= new ArrayList<TimeRange>();
-            for(TimeRange freeslot : times){
+            for(TimeRange freeslot : mandatory_times){
                 if (freeslot.overlaps(event.getWhen())){
                     if (event.getWhen().start()<=freeslot.end() && event.getWhen().start()>=freeslot.start()){
                         if (freeslot.start() != event.getWhen().start()){
@@ -53,21 +57,116 @@ public final class FindMeetingQuery {
                     to_remove.add(freeslot);
                 }
             }
-            times.removeAll(to_remove);
-            times.addAll(to_add);
+            mandatory_times.removeAll(to_remove);
+            mandatory_times.addAll(to_add);
         }
     }
-    ArrayList<TimeRange> duration_too_short = new ArrayList<TimeRange>();
-    for (TimeRange freeslot : times){
+    ArrayList<TimeRange> mandatory_duration_too_short = new ArrayList<TimeRange>();
+    for (TimeRange freeslot : mandatory_times){
         if (freeslot.duration()< request.getDuration()){
-            duration_too_short.add(freeslot);
+            mandatory_duration_too_short.add(freeslot);
         }
     }
-    times.removeAll(duration_too_short);
-    return times;
-  }
+    mandatory_times.removeAll(mandatory_duration_too_short);
+    System.out.println("mandatory times:" + mandatory_times);
+    
+    for (Event event : events){
+        boolean optional_attendee_overlap = false;
+        Set<String> event_attendees = event.getAttendees();
+        for (String attendee : event_attendees){
+          if (optional_attendees.contains(attendee)){
+            optional_attendee_overlap = true;
+            break;
+            }
+        }
+        if (optional_attendee_overlap ==  true){ 
+            ArrayList<TimeRange> to_remove = new ArrayList<TimeRange>();
+            ArrayList<TimeRange> to_add= new ArrayList<TimeRange>();
+            for(TimeRange freeslot : optional_times){
+                if (freeslot.overlaps(event.getWhen())){
+                    if (event.getWhen().start()<=freeslot.end() && event.getWhen().start()>=freeslot.start()){
+                        if (freeslot.start() != event.getWhen().start()){
+                          to_add.add(TimeRange.fromStartEnd(freeslot.start(), event.getWhen().start(),false));
+                        }
+                    }
+                    if (event.getWhen().end()<= freeslot.end() && event.getWhen().end()>= freeslot.start()){
+                        if(event.getWhen().end() != freeslot.end()){
+                          to_add.add(TimeRange.fromStartEnd(event.getWhen().end(), freeslot.end(),false));
+                        }
+                    }
+                    to_remove.add(freeslot);
+                }
+            }
+            optional_times.removeAll(to_remove);
+            optional_times.addAll(to_add);
+        }
+    }
+    ArrayList<TimeRange> optional_duration_too_short = new ArrayList<TimeRange>();
+    for (TimeRange freeslot : optional_times){
+        if (freeslot.duration()< request.getDuration()){
+            optional_duration_too_short.add(freeslot);
+        }
+    }
+    optional_times.removeAll(optional_duration_too_short);
+    System.out.println("optional times:" + optional_times);
+    Collection<TimeRange> common_times = new ArrayList<TimeRange>();
+    
+        for (TimeRange mandatory_freeslot : mandatory_times){
+            for (TimeRange optional_freeslot : optional_times){
+                System.out.println(mandatory_freeslot + "and "+ optional_freeslot);
+                if (mandatory_freeslot.overlaps(optional_freeslot)){
+                    if (mandatory_freeslot.contains(optional_freeslot)){
+                        common_times.add(optional_freeslot);
+                        System.out.println("1");
+                    }
+                    if (optional_freeslot.contains(mandatory_freeslot)){
+                        common_times.add(mandatory_freeslot);
+                        System.out.println("2");
+                    }
+                    if (optional_freeslot.end()< mandatory_freeslot.end() && optional_freeslot.start()< mandatory_freeslot.start()){
+                        if(mandatory_freeslot.start() != optional_freeslot.end()){
+                          common_times.add(TimeRange.fromStartEnd(mandatory_freeslot.start(), optional_freeslot.end(),false));
+                          System.out.println("3");
+                        }
+                    }
+                    if (optional_freeslot.end() > mandatory_freeslot.end() && optional_freeslot.start()> mandatory_freeslot.start()){
+                        if(optional_freeslot.start() != mandatory_freeslot.end()){
+                            common_times.add(TimeRange.fromStartEnd(optional_freeslot.start(),mandatory_freeslot.end(),false));
+                            System.out.println("4");
+                        }
+                    }
+                }
+
+            }
+        }
+        
+        System.out.println("commontimes:"+ common_times);
+   
+        ArrayList<TimeRange> common_duration_too_short = new ArrayList<TimeRange>();
+        for (TimeRange freeslot : common_times){
+            if (freeslot.duration()< request.getDuration()){
+                common_duration_too_short.add(freeslot);
+            }
+        }
+        common_times.removeAll(common_duration_too_short);
+        if(optional_attendees.size()==0){
+            return mandatory_times;
+        }
+        else if(mandatory_attendees.size()== 0){
+            return optional_times;
+        }
+        if(optional_attendees.size() != 0 && mandatory_attendees.size()!= 0 && common_times.size() == 0){
+            System.out.println("mandatory times returned");
+            return mandatory_times;
+        }
+        else{
+            System.out.println("common_times returned");
+            return common_times;
+        }
+    
+    }
   else {
-      return times;
+      return mandatory_times;
       }
   }
 }
