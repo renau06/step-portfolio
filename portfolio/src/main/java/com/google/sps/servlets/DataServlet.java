@@ -27,12 +27,13 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-
+import java.util.Iterables;
 /** Servlet that returns data of comments*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
@@ -60,30 +61,32 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
-
+    Translate translate = TranslateOptions.getDefaultInstance().getService();
+    
     String numChoice = request.getParameter("num");
     String languageChoice = request.getParameter("language");
+    Translate.TranslateOption language = Translate.TranslateOption.targetLanguage(languageChoice);
     int maxComments;
     maxComments = Integer.parseInt(numChoice);
-    int i =0;
+   // int i =0;
+    Iterables.limit(results.asIterable(),maxComments);
     for (Entity entity : results.asIterable()) {
-        if (i < maxComments){
+       // if (i < maxComments){
             long id = entity.getKey().getId();
             String name = (String) entity.getProperty("name");
             String email = (String) entity.getProperty("email");
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
-
-            Translate translate = TranslateOptions.getDefaultInstance().getService();
+            
             Translation translation =
-                translate.translate(comment, Translate.TranslateOption.targetLanguage(languageChoice));
+                translate.translate(comment, language);
             String translatedText = translation.getTranslatedText();
 
             Comment userComment = new Comment(name, email, translatedText,timestamp,id);
                     comments.add(0,userComment);        
         }
-        i++;
-    }
+      //  i++;
+    //}
     
 
     String json = gson.toJson(comments);
