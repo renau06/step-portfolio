@@ -13,6 +13,9 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -22,13 +25,16 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.common.collect.Iterables;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+
 
 /** Servlet that returns data of comments*/
 @WebServlet("/data")
@@ -57,28 +63,38 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
-
-    String userChoice = request.getParameter("num");
+    Translate translate = TranslateOptions.getDefaultInstance().getService();
+    
+    String numChoice = request.getParameter("num");
+    String languageChoice = request.getParameter("language");
+    Translate.TranslateOption targetLanguage = Translate.TranslateOption.targetLanguage(languageChoice);
     int maxComments;
-    maxComments = Integer.parseInt(userChoice);
-    int i =0;
-    for (Entity entity : results.asIterable()) {
-        if (i < maxComments){
+    try {
+        maxComments = Integer.parseInt(numChoice);
+    } catch(Exception e){
+        maxComments = 5;
+    }
+    
+    for (Entity entity : Iterables.limit(results.asIterable(), maxComments)) {
             long id = entity.getKey().getId();
             String name = (String) entity.getProperty("name");
             String email = (String) entity.getProperty("email");
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
-        
-            Comment userComment = new Comment(name, email, comment,timestamp,id);
+            
+            Translation translation =
+                translate.translate(comment, targetLanguage);
+            String translatedText = translation.getTranslatedText();
+
+            Comment userComment = new Comment(name, email, translatedText,timestamp,id);
                     comments.add(0,userComment);        
         }
-        i++;
-    }
+
     
 
     String json = gson.toJson(comments);
     response.setContentType("application/json;");
+    response.setCharacterEncoding("UTF-8");
     response.getWriter().println(json);
   }
 

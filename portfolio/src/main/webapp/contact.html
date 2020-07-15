@@ -48,16 +48,21 @@
             <option value="15">15</option>
             <option value="20">20</option>
         </select>
+    <br></br> 
+    <label class = "choose-language">Choose language:</label>
+        <select name="comment-language" id="comment-language" onchange= "loadComments()">
+            <option value="en">English</option>
+            <option value="zh">Chinese</option>
+            <option value="es">Spanish</option>
+            <option value="hi">Hindi</option>
+            <option value="ar">Arabic</option>
+        </select>
 
-    <div id = "comment-container"> 
-    
-    </div>
+    <div id = "comment-container"> </div>
     <button class= "delete-button" onclick="deleteComments()">Delete All Comments</button>
-    
     </div>
    
-
-     </div>
+    </div>
 
   <script> 
     createSocials(socialList,".social-container")
