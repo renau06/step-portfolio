@@ -93,7 +93,7 @@ public class DataServlet extends HttpServlet {
             String translatedText = translation.getTranslatedText();
 
             Comment userComment = new Comment(name, email, translatedText,timestamp,id,score);
-                    comments.add(0,userComment);        
+                    comments.add(userComment);        
 
         }
 
