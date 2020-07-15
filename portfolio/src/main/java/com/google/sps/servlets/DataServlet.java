@@ -69,11 +69,13 @@ public class DataServlet extends HttpServlet {
     String languageChoice = request.getParameter("language");
     Translate.TranslateOption targetLanguage = Translate.TranslateOption.targetLanguage(languageChoice);
     int maxComments;
-    maxComments = Integer.parseInt(numChoice);
-    //int i =0;
+    try {
+        maxComments = Integer.parseInt(numChoice);
+    } catch(Exception e){
+        maxComments = 5;
+    }
+    
     for (Entity entity : Iterables.limit(results.asIterable(), maxComments)) {
-   // for (Entity entity : results.asIterable()) {
-        //if (i < maxComments){
             long id = entity.getKey().getId();
             String name = (String) entity.getProperty("name");
             String email = (String) entity.getProperty("email");
@@ -87,8 +89,7 @@ public class DataServlet extends HttpServlet {
             Comment userComment = new Comment(name, email, translatedText,timestamp,id);
                     comments.add(0,userComment);        
         }
-       // i++;
-    //}
+
     
 
     String json = gson.toJson(comments);
