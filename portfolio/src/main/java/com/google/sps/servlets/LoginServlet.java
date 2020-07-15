@@ -31,60 +31,45 @@ import com.google.gson.Gson;
 
 @WebServlet("/login-status")
 public class LoginServlet extends HttpServlet {
+    private final Gson gson = new Gson();
 
-     public class Login{ 
-        String status;
-        String url;
+    public static class Login{ 
+        private final boolean status;
+        private final String url;
   
-        public Login(String status, String url) {
-            this.status =status;
+        public Login(boolean status, String url) {
+            this.status = status;
             this.url = url;
         }
     }
+
+    private static final String URL_TO_REDIRECT_TO_AFTER_LOGSIN = "/nickname.html";
+    private static final String URL_TO_REDIRECT_TO_AFTER_LOGSOUT = "/contact.html";
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    String loginStatus = Boolean.toString(userService.isUserLoggedIn());
+    //String loginStatus = Boolean.toString(userService.isUserLoggedIn());
+    boolean loginStatus = userService.isUserLoggedIn();
     if (!userService.isUserLoggedIn()) {
-      String urlToRedirectToAfterUserLogsIn = "/nickname";
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
+      
+      String loginUrl = userService.createLoginURL(URL_TO_REDIRECT_TO_AFTER_LOGSIN);
       Login login = new Login(loginStatus,loginUrl);
-      String json = convertToJsonUsingGson(login);
+      String json = gson.toJson(login);
       response.setContentType("application/json;");
       response.getWriter().println(json);
       return;
     }
-    
+   
     if (userService.isUserLoggedIn())
      {
       String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/contact.html";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+      String logoutUrl = userService.createLogoutURL(URL_TO_REDIRECT_TO_AFTER_LOGSOUT);
       Login login = new Login(loginStatus,logoutUrl);
-      String json = convertToJsonUsingGson(login);
+      String json = gson.toJson(login);
       response.setContentType("application/json;");
       response.getWriter().println(json);
     } 
    
   }
 
-   private String convertToJsonUsingGson(Login login) {
-    Gson gson = new Gson();
-    String json = gson.toJson(login);
-    return json;
-  }
-
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "";
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
-  }
 }

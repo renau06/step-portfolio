@@ -30,13 +30,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that deletes all comments*/
 @WebServlet("/delete-data")
 public class DeleteServlet extends HttpServlet {
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    }
-
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         long id = Long.parseLong(request.getParameter("id"));

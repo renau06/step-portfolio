@@ -28,19 +28,23 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.common.collect.Iterables;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+
+/** Servlet that returns data of comments*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+    private final Gson gson = new Gson();
 
-    public static class Comment{ 
+    public static class Comment { 
         private final String name; 
         private final String email;
         private final String comment;
@@ -57,8 +61,6 @@ public class DataServlet extends HttpServlet {
             this.score = score;
         }
     }
-
-    
     
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -66,14 +68,19 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
-
+    Translate translate = TranslateOptions.getDefaultInstance().getService();
+    
     String numChoice = request.getParameter("num");
     String languageChoice = request.getParameter("language");
+    Translate.TranslateOption targetLanguage = Translate.TranslateOption.targetLanguage(languageChoice);
     int maxComments;
-    maxComments = Integer.parseInt(numChoice);
-    int i =0;
-    for (Entity entity : results.asIterable()) {
-        if (i < maxComments){
+    try {
+        maxComments = Integer.parseInt(numChoice);
+    } catch(Exception e){
+        maxComments = 5;
+    }
+    
+    for (Entity entity : Iterables.limit(results.asIterable(), maxComments)) {
             long id = entity.getKey().getId();
             String name = (String) entity.getProperty("name");
             String email = (String) entity.getProperty("email");
@@ -81,19 +88,18 @@ public class DataServlet extends HttpServlet {
             long timestamp = (long) entity.getProperty("timestamp");
             double score = (double) entity.getProperty("score");
 
-            Translate translate = TranslateOptions.getDefaultInstance().getService();
             Translation translation =
-                translate.translate(comment, Translate.TranslateOption.targetLanguage(languageChoice));
+                translate.translate(comment, targetLanguage);
             String translatedText = translation.getTranslatedText();
-        
-            Comment user_comment = new Comment(name, email, translatedText,timestamp,id, score);
-                comments.add(0,user_comment);        
+
+            Comment userComment = new Comment(name, email, translatedText,timestamp,id,score);
+                    comments.add(0,userComment);        
+
         }
-        i++;
-    }
+
     
 
-    String json = convertToJsonUsingGson(comments);
+    String json = gson.toJson(comments);
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().println(json);
@@ -131,25 +137,8 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/contact.html");
   }
 
-  
-  private String convertToJson(ArrayList<String> messages) {
-    String json = "[";
-    json += "\"" + messages.get(0) + "\"";
-    for (int i=1; i<messages.size(); i++){
-        json += ", ";
-        json += "\"" + messages.get(i) + "\"";
-    }
-    json += "]";
-    return json;
-  }
-
-  private String convertToJsonUsingGson(ArrayList<Comment> comments) {
-    Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    return json;
-  }
-
-   private String getUserNickname(String id) {
+//left this the same
+private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
         new Query("UserInfo")
