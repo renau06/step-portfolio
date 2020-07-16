@@ -22,168 +22,118 @@ import java.util.Arrays;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    Collection<TimeRange> mandatory_times = new ArrayList<TimeRange>();
-    Collection<TimeRange> optional_times = new ArrayList<TimeRange>();
-    Collection<TimeRange> common_times = new ArrayList<TimeRange>();
-    Collection<String> mandatory_attendees = request.getAttendees();
-    Collection<String> optional_attendees = request.getOptionalAttendees();
-    if (request.getDuration() <= 1440){
-        mandatory_times = findMandatoryAttendeeTimes(events, request);
-        optional_times =  findOptionalAttendeeTimes(events,request);
-        common_times = findCommonTimes(mandatory_times,optional_times, request);
+    if (request.getDuration() <= TimeRange.WHOLE_DAY.duration()){
+        Collection<TimeRange> mandatoryTimes = findAvailableMeetingTimes(events, request, true);
+        Collection<TimeRange> optionalTimes =  findAvailableMeetingTimes(events,request, false);
+        Collection<String> mandatoryAttendees = request.getAttendees();
+        Collection<String> optionalAttendees = request.getOptionalAttendees();
 
-        if(optional_attendees.size()== 0){
-            return mandatory_times;
+        if(optionalAttendees.size()== 0){
+            return mandatoryTimes;
         }
-        else if(mandatory_attendees.size()== 0){
-            return optional_times;
+        if(mandatoryAttendees.size()== 0){
+            return optionalTimes;
         }
-        if(optional_attendees.size() != 0 && mandatory_attendees.size()!= 0 && common_times.size() == 0){
-            System.out.println("mandatory times returned");
-            return mandatory_times;
+        Collection<TimeRange> commonTimes = findCommonTimes(mandatoryTimes,optionalTimes, request);
+        if(optionalAttendees.size() != 0 && mandatoryAttendees.size()!= 0 && commonTimes.size() == 0){
+            mandatoryTimes = findAvailableMeetingTimes(events, request, true);
+            return mandatoryTimes;
         }
         else{
-            System.out.println("common_times returned");
-            return common_times;
+            return commonTimes;
         }
     
     }
-  else {
-      return mandatory_times;
-      }
+    else {
+      return Collections.emptyList();
+    }
   }
 
+    //for mandatoryOrOptional, true means mandatory attendees and false means optional attendees
+   public Collection<TimeRange> findAvailableMeetingTimes(Collection<Event> events, MeetingRequest request, boolean mandatoryOrOptional){
+      Collection<TimeRange> meetingTimes = new ArrayList<TimeRange>();
+      Collection<String> meetingAttendees = new ArrayList<String>();
+      if (mandatoryOrOptional == true){
+          meetingAttendees = request.getAttendees();
+      }
+      else{
+          meetingAttendees = request.getOptionalAttendees();
+      }
 
-   public Collection<TimeRange> findMandatoryAttendeeTimes(Collection<Event> events, MeetingRequest request){
-       Collection<TimeRange> mandatory_times = new ArrayList<TimeRange>();
-       Collection<String> mandatory_attendees = request.getAttendees();
-       mandatory_times.add(TimeRange.WHOLE_DAY);
-      
+       meetingTimes.add(TimeRange.WHOLE_DAY);
        for (Event event : events){
-        boolean mandatory_attendee_overlap = false;
-        Set<String> event_attendees = event.getAttendees();
-        for (String attendee : event_attendees){
-          if (mandatory_attendees.contains(attendee)){
-            mandatory_attendee_overlap = true;
-            break;
-            }
-        }
-        if (mandatory_attendee_overlap ==  true){ 
-            ArrayList<TimeRange> to_remove = new ArrayList<TimeRange>();
-            ArrayList<TimeRange> to_add= new ArrayList<TimeRange>();
-            for(TimeRange freeslot : mandatory_times){
+        Set<String> eventAttendees = event.getAttendees();
+        if (Collections.disjoint(meetingAttendees, eventAttendees) ==  false){ 
+            ArrayList<TimeRange> toRemove = new ArrayList<TimeRange>();
+            ArrayList<TimeRange> toAdd= new ArrayList<TimeRange>();
+            for(TimeRange freeslot : meetingTimes){
                 if (freeslot.overlaps(event.getWhen())){
                     if (event.getWhen().start()<=freeslot.end() && event.getWhen().start()>=freeslot.start()){
                         if (freeslot.start() != event.getWhen().start()){
-                          to_add.add(TimeRange.fromStartEnd(freeslot.start(), event.getWhen().start(),false));
+                          toAdd.add(TimeRange.fromStartEnd(freeslot.start(), event.getWhen().start(),false));
                         }
                     }
                     if (event.getWhen().end()<= freeslot.end() && event.getWhen().end()>= freeslot.start()){
                         if(event.getWhen().end() != freeslot.end()){
-                          to_add.add(TimeRange.fromStartEnd(event.getWhen().end(), freeslot.end(),false));
+                          toAdd.add(TimeRange.fromStartEnd(event.getWhen().end(), freeslot.end(),false));
                         }
                     }
-                    to_remove.add(freeslot);
+                    toRemove.add(freeslot);
                 }
             }
-            mandatory_times.removeAll(to_remove);
-            mandatory_times.addAll(to_add);
+            meetingTimes.removeAll(toRemove);
+            meetingTimes.addAll(toAdd);
         }
     }
-    ArrayList<TimeRange> mandatory_duration_too_short = new ArrayList<TimeRange>();
-    for (TimeRange freeslot : mandatory_times){
+    ArrayList<TimeRange> durationTooShort = new ArrayList<TimeRange>();
+    for (TimeRange freeslot : meetingTimes){
         if (freeslot.duration()< request.getDuration()){
-            mandatory_duration_too_short.add(freeslot);
+            durationTooShort.add(freeslot);
         }
     }
-    mandatory_times.removeAll(mandatory_duration_too_short);
-    return mandatory_times;
+    meetingTimes.removeAll(durationTooShort);
+    return meetingTimes;
    }
+     
 
-
-   public Collection<TimeRange> findOptionalAttendeeTimes(Collection<Event> events, MeetingRequest request){
-    Collection<TimeRange> optional_times = new ArrayList<TimeRange>();
-    Collection<String> optional_attendees = request.getOptionalAttendees();
-    optional_times.add(TimeRange.WHOLE_DAY);
-    for (Event event : events){
-      boolean optional_attendee_overlap = false;
-        Set<String> event_attendees = event.getAttendees();
-        for (String attendee : event_attendees){
-          if (optional_attendees.contains(attendee)){
-            optional_attendee_overlap = true;
-            break;
-            }
-        }
-        if (optional_attendee_overlap ==  true){ 
-          ArrayList<TimeRange> to_remove = new ArrayList<TimeRange>();
-          ArrayList<TimeRange> to_add= new ArrayList<TimeRange>();
-          for(TimeRange freeslot : optional_times){
-            if (freeslot.overlaps(event.getWhen())){
-              if (event.getWhen().start()<=freeslot.end() && event.getWhen().start()>=freeslot.start()){
-                if (freeslot.start() != event.getWhen().start()){
-                  to_add.add(TimeRange.fromStartEnd(freeslot.start(), event.getWhen().start(),false));
-                    }
-                  }
-            if (event.getWhen().end()<= freeslot.end() && event.getWhen().end()>= freeslot.start()){
-                if(event.getWhen().end() != freeslot.end()){
-                  to_add.add(TimeRange.fromStartEnd(event.getWhen().end(), freeslot.end(),false));
-                    }
-                  }
-                to_remove.add(freeslot);
-              }
-          }
-        optional_times.removeAll(to_remove);
-        optional_times.addAll(to_add);
-        } 
-    }
-    ArrayList<TimeRange> optional_duration_too_short = new ArrayList<TimeRange>();
-    for (TimeRange freeslot : optional_times){
-        if (freeslot.duration()< request.getDuration()){
-            optional_duration_too_short.add(freeslot);
-        }
-    }
-    optional_times.removeAll(optional_duration_too_short);
-    return optional_times;
-}
-
-   public Collection<TimeRange> findCommonTimes(Collection<TimeRange> mandatory_times , Collection<TimeRange> optional_times, MeetingRequest request){
-      Collection<TimeRange> common_times = new ArrayList<TimeRange>();
+   public Collection<TimeRange> findCommonTimes(Collection<TimeRange> mandatoryTimes , Collection<TimeRange> optionalTimes, MeetingRequest request){
+      Collection<TimeRange> commonTimes = new ArrayList<TimeRange>();
     
-      for (TimeRange mandatory_freeslot : mandatory_times){
-        for (TimeRange optional_freeslot : optional_times){
-          System.out.println(mandatory_freeslot + "and "+ optional_freeslot);
-          if (mandatory_freeslot.overlaps(optional_freeslot)){
-            if (mandatory_freeslot.contains(optional_freeslot)){
-              common_times.add(optional_freeslot);
+      for (TimeRange mandatoryFreeslot : mandatoryTimes){
+        for (TimeRange optionalFreeslot : optionalTimes){
+          System.out.println(mandatoryFreeslot + "and "+ optionalFreeslot);
+          if (mandatoryFreeslot.overlaps(optionalFreeslot)){
+            if (mandatoryFreeslot.contains(optionalFreeslot)){
+              commonTimes.add(optionalFreeslot);
               System.out.println("1");
             }
-            if (optional_freeslot.contains(mandatory_freeslot)){
-              common_times.add(mandatory_freeslot);
+            if (optionalFreeslot.contains(mandatoryFreeslot)){
+              commonTimes.add(mandatoryFreeslot);
               System.out.println("2");
             }
-            if (optional_freeslot.end()< mandatory_freeslot.end() && optional_freeslot.start()< mandatory_freeslot.start()){
-              if(mandatory_freeslot.start() != optional_freeslot.end()){
-                common_times.add(TimeRange.fromStartEnd(mandatory_freeslot.start(), optional_freeslot.end(),false));
+            if (optionalFreeslot.end()< mandatoryFreeslot.end() && optionalFreeslot.start()< mandatoryFreeslot.start()){
+              if(mandatoryFreeslot.start() != optionalFreeslot.end()){
+                commonTimes.add(TimeRange.fromStartEnd(mandatoryFreeslot.start(), optionalFreeslot.end(),false));
                 System.out.println("3");
                 }
             }
-            if (optional_freeslot.end() > mandatory_freeslot.end() && optional_freeslot.start()> mandatory_freeslot.start()){
-              if(optional_freeslot.start() != mandatory_freeslot.end()){
-                common_times.add(TimeRange.fromStartEnd(optional_freeslot.start(),mandatory_freeslot.end(),false));
+            if (optionalFreeslot.end() > mandatoryFreeslot.end() && optionalFreeslot.start()> mandatoryFreeslot.start()){
+              if(optionalFreeslot.start() != mandatoryFreeslot.end()){
+                commonTimes.add(TimeRange.fromStartEnd(optionalFreeslot.start(),mandatoryFreeslot.end(),false));
                 System.out.println("4");
                 }
             }
           }
         }
       }
-      System.out.println("commontimes:"+ common_times);
-      ArrayList<TimeRange> common_duration_too_short = new ArrayList<TimeRange>();
-      for (TimeRange freeslot : common_times){
+      System.out.println("commontimes:"+ commonTimes);
+      ArrayList<TimeRange> durationTooShort = new ArrayList<TimeRange>();
+      for (TimeRange freeslot : commonTimes){
         if (freeslot.duration()< request.getDuration()){
-          common_duration_too_short.add(freeslot);
+          durationTooShort.add(freeslot);
         }
       }
-    common_times.removeAll(common_duration_too_short);
-    return common_times;
+    commonTimes.removeAll(durationTooShort);
+    return commonTimes;
    }
 }
