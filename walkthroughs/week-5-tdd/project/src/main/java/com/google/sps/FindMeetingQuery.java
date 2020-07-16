@@ -110,7 +110,7 @@ public final class FindMeetingQuery {
    }
 
 
-
+//if event time overlaps with any of the free slots, create new free slots that no longer overlap and remove the previous free slot
 public ArrayList<TimeRange> removeEventTimefromAvailableTimes (Event event, ArrayList<TimeRange> meetingTimes){
   ArrayList<TimeRange> toRemove = new ArrayList<TimeRange>();
   ArrayList<TimeRange> toAdd= new ArrayList<TimeRange>();
