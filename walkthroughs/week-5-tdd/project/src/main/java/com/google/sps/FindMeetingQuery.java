@@ -23,8 +23,8 @@ import java.util.Arrays;
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     if (request.getDuration() <= TimeRange.WHOLE_DAY.duration()){
-        Collection<TimeRange> mandatoryTimes = findAvailableMeetingTimes(events, request, true);
-        Collection<TimeRange> optionalTimes =  findAvailableMeetingTimes(events,request, false);
+        ArrayList<TimeRange> mandatoryTimes = findAvailableMeetingTimes(events, request, true);
+        ArrayList<TimeRange> optionalTimes =  findAvailableMeetingTimes(events,request, false);
         Collection<String> mandatoryAttendees = request.getAttendees();
         Collection<String> optionalAttendees = request.getOptionalAttendees();
 
@@ -34,7 +34,7 @@ public final class FindMeetingQuery {
         if(mandatoryAttendees.size()== 0){
             return optionalTimes;
         }
-        Collection<TimeRange> commonTimes = findCommonTimes(mandatoryTimes,optionalTimes, request);
+        ArrayList<TimeRange> commonTimes = findCommonTimes(mandatoryTimes,optionalTimes, request);
         if(commonTimes.size() == 0){
             return mandatoryTimes;
         }
@@ -48,11 +48,11 @@ public final class FindMeetingQuery {
     }
   }
   
-  //for mandatoryOrOptional, true means mandatory attendees and false means optional attendees
-   public Collection<TimeRange> findAvailableMeetingTimes(Collection<Event> events, MeetingRequest request, boolean mandatoryOrOptional){
-      Collection<TimeRange> meetingTimes = new ArrayList<TimeRange>(Arrays.asList(TimeRange.WHOLE_DAY));
+  //for isMandatoryMeeting, true means mandatory attendees and false means optional attendees
+   public ArrayList<TimeRange> findAvailableMeetingTimes(Collection<Event> events, MeetingRequest request, boolean isMandatoryMeeting){
+      ArrayList<TimeRange> meetingTimes = new ArrayList<TimeRange>(Arrays.asList(TimeRange.WHOLE_DAY));
       Collection<String> meetingAttendees;
-      if (mandatoryOrOptional == true){
+      if (isMandatoryMeeting == true){
           meetingAttendees = request.getAttendees();
       }
       else{
@@ -61,40 +61,22 @@ public final class FindMeetingQuery {
       for (Event event : events){
         Set<String> eventAttendees = event.getAttendees();
         if (Collections.disjoint(meetingAttendees, eventAttendees) ==  false){ 
-        ArrayList<TimeRange> toRemove = new ArrayList<TimeRange>();
-          ArrayList<TimeRange> toAdd= new ArrayList<TimeRange>();
-          for(TimeRange freeslot : meetingTimes){
-            if (freeslot.overlaps(event.getWhen())){
-              if (event.getWhen().start()<=freeslot.end() && event.getWhen().start()>=freeslot.start()){
-                if (freeslot.start() != event.getWhen().start()){
-                  toAdd.add(TimeRange.fromStartEnd(freeslot.start(), event.getWhen().start(),false));
-                }
-              }
-              if (event.getWhen().end()<= freeslot.end() && event.getWhen().end()>= freeslot.start()){
-                if(event.getWhen().end() != freeslot.end()){
-                  toAdd.add(TimeRange.fromStartEnd(event.getWhen().end(), freeslot.end(),false));
-                }
-              }
-              toRemove.add(freeslot);
+          removeEventTimefromAvailableTimes(event,meetingTimes);
+        }
+        ArrayList<TimeRange> durationTooShort = new ArrayList<TimeRange>();
+          for (TimeRange freeslot : meetingTimes){
+            if (freeslot.duration()< request.getDuration()){
+              durationTooShort.add(freeslot);
             }
           }
-          meetingTimes.removeAll(toRemove);
-          meetingTimes.addAll(toAdd);
-        }
+          meetingTimes.removeAll(durationTooShort);
       }
-    ArrayList<TimeRange> durationTooShort = new ArrayList<TimeRange>();
-    for (TimeRange freeslot : meetingTimes){
-        if (freeslot.duration()< request.getDuration()){
-            durationTooShort.add(freeslot);
-        }
-    }
-    meetingTimes.removeAll(durationTooShort);
     return meetingTimes;
    }
      
 
-   public Collection<TimeRange> findCommonTimes(Collection<TimeRange> mandatoryTimes , Collection<TimeRange> optionalTimes, MeetingRequest request){
-      Collection<TimeRange> commonTimes = new ArrayList<TimeRange>();
+   public ArrayList<TimeRange> findCommonTimes(ArrayList<TimeRange> mandatoryTimes , ArrayList<TimeRange> optionalTimes, MeetingRequest request){
+      ArrayList<TimeRange> commonTimes = new ArrayList<TimeRange>();
       for (TimeRange mandatoryFreeslot : mandatoryTimes){
         for (TimeRange optionalFreeslot : optionalTimes){
           if (mandatoryFreeslot.overlaps(optionalFreeslot)){
@@ -104,7 +86,7 @@ public final class FindMeetingQuery {
             if (optionalFreeslot.contains(mandatoryFreeslot)){
               commonTimes.add(mandatoryFreeslot);
             }
-            if (optionalFreeslot.end()< mandatoryFreeslot.end() && optionalFreeslot.start()< mandatoryFreeslot.start()){
+            if (optionalFreeslot.end() < mandatoryFreeslot.end() && optionalFreeslot.start()< mandatoryFreeslot.start()){
               if(mandatoryFreeslot.start() != optionalFreeslot.end()){
                 commonTimes.add(TimeRange.fromStartEnd(mandatoryFreeslot.start(), optionalFreeslot.end(),false));
                 }
@@ -126,4 +108,26 @@ public final class FindMeetingQuery {
     commonTimes.removeAll(durationTooShort);
     return commonTimes;
    }
+
+
+
+public ArrayList<TimeRange> removeEventTimefromAvailableTimes (Event event, ArrayList<TimeRange> meetingTimes){
+  ArrayList<TimeRange> toRemove = new ArrayList<TimeRange>();
+  ArrayList<TimeRange> toAdd= new ArrayList<TimeRange>();
+  for(TimeRange freeslot : meetingTimes){
+    if (freeslot.overlaps(event.getWhen())){
+      if (event.getWhen().start()<=freeslot.end() && event.getWhen().start()> freeslot.start()){
+        toAdd.add(TimeRange.fromStartEnd(freeslot.start(), event.getWhen().start(),false));
+      }
+      if (event.getWhen().end() < freeslot.end() && event.getWhen().end()>= freeslot.start()){
+        toAdd.add(TimeRange.fromStartEnd(event.getWhen().end(), freeslot.end(),false));
+      }
+      toRemove.add(freeslot);
+    }
+  }
+  meetingTimes.removeAll(toRemove);
+  meetingTimes.addAll(toAdd);
+  return meetingTimes;
+ }
+
 }
