@@ -53,8 +53,7 @@ public final class FindMeetingQuery {
       ArrayList<TimeRange> meetingTimes = new ArrayList<TimeRange>(Arrays.asList(TimeRange.WHOLE_DAY));
       Collection<String> meetingAttendees = findTimesforMandatoryAttendees ? request.getAttendees() : request.getOptionalAttendees();
       for (Event event : events){
-        Set<String> eventAttendees = event.getAttendees();
-        if (!Collections.disjoint(meetingAttendees, eventAttendees)){ 
+        if (!Collections.disjoint(meetingAttendees, event.getAttendees())){ 
           removeEventTimefromAvailableTimes(event,meetingTimes);
         }
         ArrayList<TimeRange> durationTooShort = new ArrayList<TimeRange>();
@@ -77,18 +76,14 @@ public final class FindMeetingQuery {
             if (mandatoryFreeslot.contains(optionalFreeslot)){
               commonTimes.add(optionalFreeslot);
             }
-            if (optionalFreeslot.contains(mandatoryFreeslot)){
+            else if (optionalFreeslot.contains(mandatoryFreeslot)){
               commonTimes.add(mandatoryFreeslot);
             }
-            if (optionalFreeslot.end() < mandatoryFreeslot.end() && optionalFreeslot.start()< mandatoryFreeslot.start()){
-              if(mandatoryFreeslot.start() != optionalFreeslot.end()){
-                commonTimes.add(TimeRange.fromStartEnd(mandatoryFreeslot.start(), optionalFreeslot.end(),false));
-                }
+            else if (optionalFreeslot.end() < mandatoryFreeslot.end() && optionalFreeslot.start()< mandatoryFreeslot.start() && mandatoryFreeslot.start() != optionalFreeslot.end()){
+              commonTimes.add(TimeRange.fromStartEnd(mandatoryFreeslot.start(), optionalFreeslot.end(),false));   
             }
-            if (optionalFreeslot.end() > mandatoryFreeslot.end() && optionalFreeslot.start()> mandatoryFreeslot.start()){
-              if(optionalFreeslot.start() != mandatoryFreeslot.end()){
-                commonTimes.add(TimeRange.fromStartEnd(optionalFreeslot.start(),mandatoryFreeslot.end(),false));
-              }
+            else if (optionalFreeslot.end() > mandatoryFreeslot.end() && optionalFreeslot.start()> mandatoryFreeslot.start() && optionalFreeslot.start() != mandatoryFreeslot.end()){
+              commonTimes.add(TimeRange.fromStartEnd(optionalFreeslot.start(),mandatoryFreeslot.end(),false));
             }
           }
         }
