@@ -48,13 +48,13 @@ public final class FindMeetingQuery {
     }
   }
   
-  //for isMandatoryMeeting, true means mandatory attendees and false means optional attendees
+  //for findTimesforMandatoryAttendees, true means mandatory attendees and false means optional attendees
    public ArrayList<TimeRange> findAvailableMeetingTimes(Collection<Event> events, MeetingRequest request, boolean findTimesforMandatoryAttendees){
       ArrayList<TimeRange> meetingTimes = new ArrayList<TimeRange>(Arrays.asList(TimeRange.WHOLE_DAY));
       Collection<String> meetingAttendees = findTimesforMandatoryAttendees ? request.getAttendees() : request.getOptionalAttendees();
       for (Event event : events){
         Set<String> eventAttendees = event.getAttendees();
-        if (Collections.disjoint(meetingAttendees, eventAttendees) ==  false){ 
+        if (!Collections.disjoint(meetingAttendees, eventAttendees)){ 
           removeEventTimefromAvailableTimes(event,meetingTimes);
         }
         ArrayList<TimeRange> durationTooShort = new ArrayList<TimeRange>();
