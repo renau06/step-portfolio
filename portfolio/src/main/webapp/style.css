@@ -287,3 +287,18 @@ textarea{
 .delete-button{
     margin-top: 1vw;
 }
+
+
+
+#map {
+  height: 90%;
+  padding:20px;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
